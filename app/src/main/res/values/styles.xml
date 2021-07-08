@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottomSheetBackground" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="BottomSheetDialogeTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetBackground</item>
+    </style>
+
+<!--    Chip Style-->
+
+    <style name="chipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:fontFamily">@font/mplusregular</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_main</item>
+        <item name="backgroundColor">@color/pink_700</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="android:selectedWeekBackgroundColor">#DD8E3B55</item>
+    </style>
+</resources>

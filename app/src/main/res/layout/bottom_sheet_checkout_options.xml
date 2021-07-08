@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/mplusbold"
+        android:text="Customize"
+        android:textColor="@color/font_main"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/bottom_sheet_seprator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/font_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/bottom_sheet_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/favorite_border"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_seprator" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mplusregular"
+        android:text="Item Name"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="@color/font_main"
+        android:textSize="16sp"
+        android:maxLines="2"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_seprator" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_item_subname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/mpluslight"
+        android:maxLines="3"
+        android:text="Item Sub Name"
+        android:textColor="@color/font_main"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_item_name" />
+
+    <ImageView
+        android:id="@+id/bottom_sheet_additem"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/add_circle"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_item_subname" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_item_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="1"
+        android:layout_margin="10dp"
+        android:textSize="13sp"
+        android:fontFamily="@font/mplusregular"
+        android:textColor="@color/font_main"
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_sheet_additem"
+        app:layout_constraintEnd_toStartOf="@+id/bottom_sheet_removeitem"
+        app:layout_constraintStart_toEndOf="@+id/bottom_sheet_additem"
+        app:layout_constraintTop_toTopOf="@+id/bottom_sheet_additem" />
+
+
+    <ImageView
+        android:id="@+id/bottom_sheet_removeitem"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/remove_circle"
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_sheet_additem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottom_sheet_additem" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_item_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/mplusregular"
+        android:maxLines="2"
+        android:text="₹ PRICE"
+        android:textColor="@color/font_main"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_additem" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/bottom_sheet_size_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            style="@style/chipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S"
+            android:theme="@style/Theme.MaterialComponents.Light" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/chipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M"
+            android:theme="@style/Theme.MaterialComponents.Light" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/chipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="L"
+            android:theme="@style/Theme.MaterialComponents.Light" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/chipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XL"
+            android:theme="@style/Theme.MaterialComponents.Light" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/chipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XXL"
+            android:theme="@style/Theme.MaterialComponents.Light" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/chipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XXL"
+            android:theme="@style/Theme.MaterialComponents.Light" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+
+    <Button
+        android:id="@+id/bottom_sheet_checkout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5sp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/mplusextrabold"
+        android:text="Checkout"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_size_selector" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
