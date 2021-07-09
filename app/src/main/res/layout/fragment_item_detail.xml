@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/itemDetail_continer"
-    tools:context=".fragment.itemDetail">
+    tools:context=".fragment.ItemDetail">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/itemDetail_actionbar"

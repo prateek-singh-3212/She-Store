@@ -10,16 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shestore.Adapter.itemAdapter
+import com.example.shestore.Adapter.ItemAdapter
 import com.example.shestore.Interface.ItemData
 import com.example.shestore.Model.setData
 import com.example.shestore.R
-import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialElevationScale
 
-class itemCardViewer : Fragment(), ItemData {
+class ItemCardViewer : Fragment(), ItemData {
 
-    private val TAG = "itemCardViewer"
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
@@ -30,16 +28,17 @@ class itemCardViewer : Fragment(), ItemData {
 
         recyclerView = view.findViewById(R.id.itemlist_recyclerview)
 
-        // TODO('If I use 'kotlin-android-extensions' this extention then app will crash
-        //  because it will not be able to find out view')
-        // eg. itemlist_recyclerview.adapter = context?.let { itemAdapter(it, setData()) }
+        /** TODO('If I use 'kotlin-android-extensions' this extention then app will crash
+          * because it will not be able to find out view')
+          * eg. itemlist_recyclerview.adapter = context?.let { ItemAdapter(it, setData()) }
+        */
+
         if (context != null) {
-            recyclerView.adapter = context?.let { itemAdapter(it, setData(), this) }
+            recyclerView.adapter = context?.let { ItemAdapter(it, setData(), this) }
             recyclerView.layoutManager = GridLayoutManager(context, 2)
         } else {
-            Toast.makeText(context, "A", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "No Context Found", Toast.LENGTH_SHORT).show()
         }
-
         return view
     }
 
@@ -62,6 +61,10 @@ class itemCardViewer : Fragment(), ItemData {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        /**
+         * We have to wait for recycler view to recreate so we have to postpone the Transition.
+         */
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
