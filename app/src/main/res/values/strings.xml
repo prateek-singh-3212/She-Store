@@ -2,5 +2,19 @@
     <string name="app_name">She Store</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    BackDrop Navbar Buttons-->
     <string name="container_name">container_name</string>
+    <string name="log_out">Log Out</string>
+    <string name="settings">Settings</string>
+    <string name="my_account">My Account</string>
+    <string name="my_wishlist">My Wishlist</string>
+    <string name="my_cart">My Cart</string>
+    <string name="my_orders">My Orders</string>
+    <string name="offer_zone">Offer Zone</string>
+    <string name="all_categories">All Categories</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="made_with_love">Made with ❦️ by Prateek Singh</string>
+
+
 </resources>
