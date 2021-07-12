@@ -19,4 +19,13 @@
         <item name="tabSelectedTextColor">@color/white</item>
         <item name="android:selectedWeekBackgroundColor">#DD8E3B55</item>
     </style>
+
+<!--    Nav BackDrop-->
+    <style name="nav_backdrop" parent="">
+        <item name="android:background">@color/pink_500</item>
+    </style>
+
+    <style name="Widget.Shrine.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

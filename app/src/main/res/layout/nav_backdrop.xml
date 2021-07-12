@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_backdrop_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/nav_backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_marginTop="88dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/user"
+            android:contentDescription="@string/profile_image" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nav_backdrop_allcategories"
+            style="@style/Widget.Shrine.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:transitionName="AA"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mplusbold"
+            android:text="@string/all_categories"
+            android:textColor="@color/pink_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nav_backdrop_offerzone"
+            style="@style/Widget.Shrine.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mplusbold"
+            android:text="@string/offer_zone"
+            android:textColor="@color/pink_primary" />
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="1dp"
+            android:layout_margin="5dp"
+            android:background="@color/pink_primary"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nav_backdrop_myorders"
+            style="@style/Widget.Shrine.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mplusbold"
+            android:text="@string/my_orders"
+            android:textColor="@color/pink_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nav_backdrop_mycart"
+            style="@style/Widget.Shrine.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mplusbold"
+            android:text="@string/my_cart"
+            android:textColor="@color/pink_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nav_backdrop_mywishlist"
+            style="@style/Widget.Shrine.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mplusbold"
+            android:text="@string/my_wishlist"
+            android:textColor="@color/pink_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nav_backdrop_myaccount"
+            style="@style/Widget.Shrine.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mplusbold"
+            android:text="@string/my_account"
+            android:textColor="@color/pink_primary" />
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="1dp"
+            android:layout_margin="5dp"
+            android:background="@color/pink_primary"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nav_backdrop_settings"
+            style="@style/Widget.Shrine.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mplusbold"
+            android:text="@string/settings"
+            android:textColor="@color/pink_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nav_backdrop_logout"
+            style="@style/Widget.Shrine.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mplusbold"
+            android:text="@string/log_out"
+            android:textColor="@color/pink_primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mplusregular"
+            android:text="@string/made_with_love"
+            android:textColor="@color/pink_primary" />
+    </LinearLayout>
+</ScrollView>
