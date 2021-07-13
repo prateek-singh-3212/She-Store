@@ -1,22 +1,24 @@
 package com.example.shestore.fragment
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shestore.Adapter.ItemAdapter
 import com.example.shestore.Interface.ItemData
 import com.example.shestore.Model.setData
 import com.example.shestore.R
+import com.example.shestore.Utility.ItemSwipGesture
 import com.example.shestore.Utility.NavigationIconClickListener
 import com.google.android.material.transition.MaterialElevationScale
 import kotlinx.android.synthetic.main.fragment_item_card_viewer.view.*
@@ -54,6 +56,9 @@ class ItemCardViewer : Fragment(), ItemData {
         if (context != null) {
             recyclerView.adapter = context?.let { ItemAdapter(it, setData(), this) }
             recyclerView.layoutManager = GridLayoutManager(context, 2)
+
+            // Item Swipe Gesture to Right to add item to wishlist.
+            ItemTouchHelper(ItemSwipGesture(requireContext(), 0, ItemTouchHelper.RIGHT)).attachToRecyclerView(recyclerView)
         } else {
             Toast.makeText(context, "No Context Found", Toast.LENGTH_SHORT).show()
         }
@@ -97,21 +102,12 @@ class ItemCardViewer : Fragment(), ItemData {
          * Added On click backdrop functionality
          * TODO Add the exit animation of this backdrop
          */
-
-        val animator = ObjectAnimator.ofFloat(
-            view.findViewById(R.id.aaa),
-            "translationY",
-            100f
-        )
-        animator.duration = 500
-
         view.findViewById<View>(R.id.nav_backdrop_allcategories).setOnClickListener{
             (context as FragmentActivity).supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace(R.id.main_framelayout, AllCategories())
                 addToBackStack(null)
             }
-            Toast.makeText(context, "All Categories", Toast.LENGTH_SHORT).show()
         }
     }
 }

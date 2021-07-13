@@ -7,8 +7,8 @@
     app:cardCornerRadius="15dp"
     android:id="@+id/cardview_item"
     android:clickable="true"
-    android:elevation="8dp"
-    app:cardMaxElevation="30dp"
+    android:elevation="10dp"
+    app:cardMaxElevation="16dp"
     android:layout_height="wrap_content"
     android:focusable="true">
 
@@ -34,11 +34,12 @@
             android:layout_margin="5dp"
             android:fontFamily="@font/mplusmedium"
             android:maxLines="1"
-            android:textAlignment="center"
-            android:text="Item Name"
+            android:text="@string/item_name"
+            android:textAlignment="textStart"
             android:textColor="@color/font_main"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/itemRateing"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemImage" />
 
@@ -49,11 +50,12 @@
             android:layout_margin="5dp"
             android:fontFamily="@font/mpluslight"
             android:maxLines="1"
-            android:textAlignment="center"
-            android:text="Item Sub Name"
+            android:text="@string/item_sub_name"
+            android:textAlignment="textStart"
             android:textColor="@color/font_main"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemName" />
 
@@ -65,16 +67,30 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="15dp"
+            android:textSize="15sp"
             android:fontFamily="@font/mplusregular"
             android:maxLines="1"
-            android:text="Price"
-            android:textAlignment="center"
+            android:text="@string/price"
+            android:textAlignment="textStart"
             android:textColor="@color/font_main"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemSubname" />
+
+        <TextView
+            android:id="@+id/itemRateing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/rating_background"
+            android:padding="3dp"
+            android:textSize="12sp"
+            android:text="@string/rateing_default"
+            android:textColor="#328836"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itemImage" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontalGuide"

@@ -15,6 +15,10 @@
     <string name="all_categories">All Categories</string>
     <string name="profile_image">Profile Image</string>
     <string name="made_with_love">Made with ❦️ by Prateek Singh</string>
+    <string name="price">Price</string>
+    <string name="item_sub_name">Item Sub Name</string>
+    <string name="item_name">Item Name</string>
+    <string name="rateing_default">4.2 ★</string>
 
 
 </resources>

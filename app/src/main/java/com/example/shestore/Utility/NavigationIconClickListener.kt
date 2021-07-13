@@ -4,14 +4,12 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.animation.Interpolator
 import android.widget.ImageView
 import com.example.shestore.R
-import kotlinx.android.synthetic.main.cardview_item.view.*
 
 class NavigationIconClickListener @JvmOverloads internal constructor(
     private val context: Context, private val sheet: View, private val interpolator: Interpolator? = null,

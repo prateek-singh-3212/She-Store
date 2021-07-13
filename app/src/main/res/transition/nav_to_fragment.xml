@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:targetId="@+id/main_framelayout"
+    android:transitionOrdering="together">
 
-    <slide android:duration="500"
-        android:slideEdge="bottom"
-        android:interpolator="@android:interpolator/accelerate_quint"/>
+    <!--    WARNING!! :- TODO:When we click on any item first and-->
+    <!--    then click on add categories the background activity transition changes-->
 
-    <fade android:fadingMode="fade_in_out"
-        android:duration="1000">
+    <!--    Slowly fades in the the upcomming layout-->
+    <fade
+        android:duration="300"
+        android:fadingMode="fade_in">
         <targets>
-            <target android:targetId="@+id/item_card_viewer"/>
+            <target android:targetId="@+id/all_categories" />
+        </targets>
+    </fade>
+
+    <!--    Transit the new layout from bottom-->
+    <slide
+        android:duration="300"
+        android:slideEdge="bottom">
+        <targets>
+            <target android:targetId="@+id/all_categories" />
+        </targets>
+    </slide>
+
+    <!--    Exits the layout background of layout in fadeout pattern-->
+    <fade
+        android:duration="450"
+        android:fadingMode="fade_out">
+        <targets>
+            <target android:targetId="@+id/item_card_viewer" />
         </targets>
     </fade>
 </transitionSet>
