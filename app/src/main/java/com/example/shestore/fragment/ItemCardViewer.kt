@@ -1,10 +1,9 @@
 package com.example.shestore.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
@@ -34,19 +33,10 @@ class ItemCardViewer : Fragment(), ItemData {
     ): View {
         val view: View = inflater.inflate(R.layout.fragment_item_card_viewer, container, false)
 
-        /**
-         * Sets the dropdown navbar (Back Drop). We can change the type of back drop from class NavigationIconClicklListener.
-         */
-
-        setHasOptionsMenu(true)
-        view.action_bar.setNavigationOnClickListener(
-            NavigationIconClickListener(
-                requireActivity(),
-                view.itemlist_recyclerview
-            )
-        )
-
         setViews(view)
+
+        setActionBar(view)
+
 
         /** TODO('If I use 'kotlin-android-extensions' this extention then app will crash
          * because it will not be able to find out view')
@@ -63,6 +53,42 @@ class ItemCardViewer : Fragment(), ItemData {
             Toast.makeText(context, "No Context Found", Toast.LENGTH_SHORT).show()
         }
         return view
+    }
+
+    private fun setActionBar(view : View) {
+        /**
+         * Sets the dropdown navbar (Back Drop). We can change the type of back drop from class NavigationIconClicklListener.
+         */
+        setHasOptionsMenu(true)
+
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.title = ""
+
+        view.action_bar.setNavigationOnClickListener(
+            NavigationIconClickListener(
+                requireActivity(),
+                view.itemlist_recyclerview
+            )
+        )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.actionbar_item_card_viewer, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.actionbar_item_card_viewer_mycart -> {
+                (context as FragmentActivity).supportFragmentManager.commit {
+                    setReorderingAllowed(true)
+                    replace(R.id.main_framelayout, Cart())
+                    addToBackStack(null)
+                }
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setViews(view: View) {
