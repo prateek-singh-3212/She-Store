@@ -15,4 +15,5 @@
     <color name="font_main">#602437</color>
     <color name="font_secondary">#FF9EBB</color>
     <color name="transparent">#00FF9EBB</color>
+    <color name="white_forsted">#DDEAE3E3</color>
 </resources>

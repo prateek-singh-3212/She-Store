@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/button_background"
-            android:elevation="50dp"
+            android:elevation="16dp"
             android:fontFamily="@font/mplusbold"
             android:text="Buy Now"
             android:textSize="18sp" />

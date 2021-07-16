@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:targetId="@+id/main_framelayout">
+
+    <slide
+        android:duration="200"
+        android:slideEdge="right">
+        <targets>
+            <target android:targetId="@+id/cart"/>
+        </targets>
+    </slide>
+
+    <!--    Exits the layout background of layout in fadeout pattern-->
+    <fade
+        android:duration="300"
+        android:fadingMode="fade_out">
+        <targets>
+            <target android:targetId="@+id/item_card_viewer" />
+        </targets>
+    </fade>
+
+</transitionSet>
