@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/cardview_itemDetail_itemRateing"
+            android:layout_width="38dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/rating_background"
+            android:padding="3dp"
+            android:text="@string/rateing_default"
+            android:textColor="#328836"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/review_name_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/mplusbold"
+            android:text="Anjana Singh | 31 Aug 2020"
+            android:textColor="@color/font_main"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/cardview_itemDetail_itemRateing"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/review_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/mplusregular"
+            android:text="As expected dress is very nice, febric r very nice, fitting also as expected."
+            android:textColor="@color/font_main"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_name_date" />
+
+        <ImageView
+            android:id="@+id/review_thum_up_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/thumb_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_message" />
+
+        <TextView
+            android:id="@+id/review_thumb_up_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/mpluslight"
+            android:text="(336)"
+            android:textColor="@color/font_main"
+            app:layout_constraintBottom_toBottomOf="@+id/review_thum_up_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/review_thum_up_image"
+            app:layout_constraintTop_toTopOf="@+id/review_thum_up_image" />
+
+        <ImageView
+            android:id="@+id/review_thum_down_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/thumb_down"
+            app:layout_constraintBottom_toBottomOf="@+id/review_thumb_up_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/review_thumb_up_number"
+            app:layout_constraintTop_toTopOf="@+id/review_thumb_up_number" />
+
+        <TextView
+            android:id="@+id/review_thumb_down_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/mpluslight"
+            android:text="(44)"
+            android:textColor="@color/font_main"
+            app:layout_constraintBottom_toBottomOf="@+id/review_thum_up_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/review_thum_down_image"
+            app:layout_constraintTop_toTopOf="@+id/review_thum_up_image" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

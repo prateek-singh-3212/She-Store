@@ -10,21 +10,28 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.shestore.Adapter.ItemDetailAdapter
+import com.example.shestore.Model.itemList
 import com.example.shestore.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialContainerTransform
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.cardview_item.view.*
 import kotlinx.android.synthetic.main.fragment_item_detail.*
 
 class ItemDetail : Fragment() {
 
-    private lateinit var image: ImageView
-    private lateinit var title: TextView
-    private lateinit var subName: TextView
     private lateinit var buyNow: Button
     private lateinit var toolbar: Toolbar
+    private lateinit var itemName: TextView
+    private lateinit var itemSubname: TextView
+    private lateinit var itemPrice: TextView
+    private lateinit var itemImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +56,13 @@ class ItemDetail : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         setFragmentResultListener("itemDetails") { requestKey, bundle ->
-            Picasso.get().load(
-                bundle.getString("imageURL")
-                    ?: "https://assets.myntassets.com/h_1440,q_90,w_1080/v1/assets/images/14175098/2021/6/29/9c6db6de-33df-4266-8830-b6528d5611861624949166875-ALDO-Dark-Green-Solid-Structured-Satchel-5961624949166180-1.jpg"
-            ).into(image)
-            title.text = bundle.getString("itemName") ?: "Title"
-            subName.text = bundle.getString("itemSubName") ?: "Sub Name"
-            itemDetail_continer.transitionName = bundle.getString("transitionName") ?: "no_transition"
+
+            itemDetail_continer.transitionName = bundle.getString("transitionName")
+
+            itemName.text = bundle.getString("itemName")
+            itemSubname.text = bundle.getString("itemSubName")
+            itemPrice.text = "₹ 500.00"
+            Picasso.get().load(bundle.getString("imageURL")?.toUri()).into(itemImage)
         }
     }
 
@@ -72,11 +79,12 @@ class ItemDetail : Fragment() {
     }
 
     private fun setViews(view: View) {
-        image = view.findViewById(R.id.itemDetail_imageview)
-        title = view.findViewById(R.id.itemDetail_title)
-        subName = view.findViewById(R.id.itemDetail_subname)
         buyNow = view.findViewById(R.id.itemDetail_buynow)
         toolbar = view.findViewById(R.id.itemDetail_actionbar)
+        itemName = view.findViewById(R.id.cardview_itemDetail_title)
+        itemPrice = view.findViewById(R.id.cardview_itemDetail_price)
+        itemSubname = view.findViewById(R.id.cardview_itemDetail_subname)
+        itemImage = view.findViewById(R.id.cardview_itemDetail_imageview)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

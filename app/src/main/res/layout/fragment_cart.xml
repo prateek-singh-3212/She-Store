@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_background"
             android:elevation="16dp"
-            android:fontFamily="@font/mplusextrabold"
+            android:fontFamily="@font/mplusbold"
             android:text="@string/checkout"
             android:textColor="@color/white"
             android:textSize="14sp"
