@@ -20,6 +20,9 @@
     <string name="item_name">Item Name</string>
     <string name="rateing_default">4.2 ★</string>
     <string name="checkout">Checkout</string>
+    <string name="product_details">Product Details:</string>
+    <string name="product_description">Product Description:</string>
+    <string name="buy_now">Buy Now</string>
 
 
 </resources>
