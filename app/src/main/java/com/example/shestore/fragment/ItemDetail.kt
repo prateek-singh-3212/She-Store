@@ -11,27 +11,36 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.example.shestore.Adapter.ImageSliderAdapter
 import com.example.shestore.Adapter.ItemDetailAdapter
+import com.example.shestore.Interface.ItemData
 import com.example.shestore.Model.itemList
 import com.example.shestore.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialElevationScale
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cardview_item.view.*
 import kotlinx.android.synthetic.main.fragment_item_detail.*
-
-class ItemDetail : Fragment() {
+// TODO : Pass slide in the imageURL list (ViewModel)
+class ItemDetail : Fragment(), ItemData {
 
     private lateinit var buyNow: Button
     private lateinit var toolbar: Toolbar
     private lateinit var itemName: TextView
     private lateinit var itemSubname: TextView
     private lateinit var itemPrice: TextView
-    private lateinit var itemImage: ImageView
+    private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +71,6 @@ class ItemDetail : Fragment() {
             itemName.text = bundle.getString("itemName")
             itemSubname.text = bundle.getString("itemSubName")
             itemPrice.text = "₹ 500.00"
-            Picasso.get().load(bundle.getString("imageURL")?.toUri()).into(itemImage)
         }
     }
 
@@ -75,6 +83,18 @@ class ItemDetail : Fragment() {
         setViews(view)
         setActionBar()
 
+        val imageURL = listOf(
+            "http://placehold.it/120x120&text=image4",
+            "https://assets.myntassets.com/h_1440,q_90,w_1080/v1/assets/images/10207437/2019/12/13/12c817d6-99be-41d7-ad31-f1f08bb1fb331576236930328-W-Women-Orange-Self-Design-Maxi-Dress-7401576236928026-1.jpg",
+            "http://shestore.unaux.com/wp-content/uploads/2021/07/0b8e7b6b-f912-4f82-9536-80544b9127631582784256862-Daniel-Klein-Women-Black-Analogue-Watch-DK11421-5-1721582784-1.jpg"
+        )
+
+        viewPager.adapter = context?.let { ImageSliderAdapter(it, imageURL, viewPager, this) }
+        // syncronize the tabLayout with viewpager
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = "${(position + 1)}"
+        }.attach()
+
         return view
     }
 
@@ -84,7 +104,8 @@ class ItemDetail : Fragment() {
         itemName = view.findViewById(R.id.cardview_itemDetail_title)
         itemPrice = view.findViewById(R.id.cardview_itemDetail_price)
         itemSubname = view.findViewById(R.id.cardview_itemDetail_subname)
-        itemImage = view.findViewById(R.id.cardview_itemDetail_imageview)
+        viewPager = view.findViewById(R.id.cardview_itemDetail_viewpager)
+        tabLayout = view.findViewById(R.id.cardview_itemDetail_tablayout)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -103,6 +124,14 @@ class ItemDetail : Fragment() {
             bottomDialogue?.setContentView(bottomSheetInflater)
             bottomDialogue?.show()
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Used When back pressed in ImageViewPager
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     private fun setActionBar() {
@@ -130,5 +159,16 @@ class ItemDetail : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onItemSelectedListener(bundle: Bundle) {
+        setFragmentResult("itemSlideImage", bundle)
+
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = 300L
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = 300L
+        }
     }
 }

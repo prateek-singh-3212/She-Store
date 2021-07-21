@@ -22,7 +22,6 @@ class ItemDetailAdapter(val itemDetail : List<itemList>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ItemDetailAdapter.ViewHolder, position: Int) {
-        Picasso.get().load(itemDetail[position].imageUrl?.toUri()).into(holder.itemView.cardview_itemDetail_imageview)
         holder.itemView.cardview_itemDetail_title.text = itemDetail[position].itemName
         holder.itemView.cardview_itemDetail_subname.text = itemDetail[position].itemSubName
         holder.itemView.cardview_itemDetail_price.text = itemDetail[position].price.toString()
