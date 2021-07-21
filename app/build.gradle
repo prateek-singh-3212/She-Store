@@ -52,4 +52,10 @@ dependencies {
 
     // Lottie
     implementation "com.airbnb.android:lottie:3.7.1"
+
+    // ViewPager
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+
+    // Image Zoom
+    implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
 }
