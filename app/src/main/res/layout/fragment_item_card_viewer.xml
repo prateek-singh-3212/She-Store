@@ -1,50 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:transitionGroup="true"
     android:id="@+id/item_card_viewer"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:transitionGroup="true">
 
-<!--   This is the backdrop. when we click on nav icon this will open-->
-    <include layout="@layout/nav_backdrop" />
+    <!--   This is the backdrop. when we click on nav icon this will open-->
+    <include
+        android:id="@+id/include"
+        layout="@layout/nav_backdrop" />
 
-<!--    Elevation is 0 dp because it should match he backdop and backdrop-->
-<!--    elevation is 0 dp-->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/action_bar"
+    <!--    Elevation is 0 dp because it should match he backdop and backdrop-->
+    <!--    elevation is 0 dp-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/actionbar_background"
+        android:layout_height="wrap_content"
         android:elevation="0dp"
-        app:navigationIcon="@drawable/hambuger_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/playball"
-            android:text="She Store "
-            android:textColor="@color/pink_primary"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/actionbar_background"
+            android:elevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            app:navigationIcon="@drawable/hambuger_menu">
 
-    </androidx.appcompat.widget.Toolbar>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/playball"
+                android:text="She Store "
+                android:textColor="@color/pink_primary"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-<!--    Set Transition group so it elevates as whole instead of each-->
-<!--    element while entering to fragment B-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/itemlist_recyclerview"
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemList_constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:elevation="8dp"
-        android:transitionGroup="true"
-        android:background="@color/pink_primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/itemList_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:tabMode="auto"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--    Set Transition group so it elevates as whole instead of each-->
+        <!--    element while entering to fragment B-->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/itemList_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/pink_primary"
+            android:elevation="8dp"
+            android:transitionGroup="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itemList_tab"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

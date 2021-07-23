@@ -10,22 +10,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResult
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
-import com.example.shestore.Adapter.ItemAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.example.shestore.Adapter.RecyclerViewSliderAdapter
 import com.example.shestore.Interface.ItemData
-import com.example.shestore.Model.setData
+import com.example.shestore.Model.setTabData
 import com.example.shestore.R
-import com.example.shestore.Utility.ItemSwipGesture
 import com.example.shestore.Utility.NavigationIconClickListener
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.transition.MaterialElevationScale
 import kotlinx.android.synthetic.main.fragment_item_card_viewer.view.*
 
 class ItemCardViewer : Fragment(), ItemData {
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var toolbar: Toolbar
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewpager: ViewPager2
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,11 +43,8 @@ class ItemCardViewer : Fragment(), ItemData {
          */
 
         if (context != null) {
-            recyclerView.adapter = context?.let { ItemAdapter(it, setData(), this) }
-            recyclerView.layoutManager = GridLayoutManager(context, 2)
-
-            // Item Swipe Gesture to Right to add item to wishlist.
-            ItemTouchHelper(ItemSwipGesture(requireContext(), 0, ItemTouchHelper.RIGHT)).attachToRecyclerView(recyclerView)
+            // Sets the viewpager to view the data in tabs. on home screen.
+            viewpager.adapter = RecyclerViewSliderAdapter(setTabData(), viewpager, tabLayout, requireContext(), this)
         } else {
             Toast.makeText(context, "No Context Found", Toast.LENGTH_SHORT).show()
         }
@@ -67,7 +63,7 @@ class ItemCardViewer : Fragment(), ItemData {
         view.action_bar.setNavigationOnClickListener(
             NavigationIconClickListener(
                 requireActivity(),
-                view.itemlist_recyclerview
+                view.itemList_constraintLayout
             )
         )
     }
@@ -92,8 +88,10 @@ class ItemCardViewer : Fragment(), ItemData {
     }
 
     private fun setViews(view: View) {
-        recyclerView = view.findViewById(R.id.itemlist_recyclerview)
+//        recyclerView = view.findViewById(R.id.itemlist_recyclerview)
         toolbar = view.findViewById(R.id.action_bar)
+        tabLayout = view.findViewById(R.id.itemList_tab)
+        viewpager = view.findViewById(R.id.itemList_viewpager)
     }
 
     override fun onItemSelectedListener(bundle: Bundle) {
@@ -126,7 +124,6 @@ class ItemCardViewer : Fragment(), ItemData {
 
         /**
          * Added On click backdrop functionality
-         * TODO Add the exit animation of this backdrop
          */
         view.findViewById<View>(R.id.nav_backdrop_allcategories).setOnClickListener{
             (context as FragmentActivity).supportFragmentManager.commit {

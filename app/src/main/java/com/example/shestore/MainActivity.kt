@@ -22,8 +22,4 @@ class MainActivity : AppCompatActivity() {
             replace<ItemCardViewer>(R.id.main_framelayout)
         }
     }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-    }
 }

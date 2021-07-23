@@ -5,32 +5,25 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shestore.Adapter.ImageSliderAdapter
-import com.example.shestore.Adapter.ItemDetailAdapter
 import com.example.shestore.Interface.ItemData
-import com.example.shestore.Model.itemList
 import com.example.shestore.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.cardview_item.view.*
 import kotlinx.android.synthetic.main.fragment_item_detail.*
+
 // TODO : Pass slide in the imageURL list (ViewModel)
 class ItemDetail : Fragment(), ItemData {
 

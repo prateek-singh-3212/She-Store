@@ -3,11 +3,9 @@ package com.example.shestore.Adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shestore.Model.itemList
 import com.example.shestore.R
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cardview_itemdetail_header.view.*
 
 class ItemDetailAdapter(val itemDetail : List<itemList>) : RecyclerView.Adapter<ItemDetailAdapter.ViewHolder>() {

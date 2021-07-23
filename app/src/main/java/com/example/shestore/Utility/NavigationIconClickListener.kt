@@ -41,7 +41,7 @@ class NavigationIconClickListener @JvmOverloads internal constructor(
          */
 
         val translateY =
-            (context as Activity).findViewById<View>(R.id.nav_backdrop_scrollview).measuredHeight - (context as Activity).findViewById<View>(R.id.action_bar).measuredHeight
+            (context as Activity).findViewById<View>(R.id.nav_backdrop).measuredHeight- (context as Activity).findViewById<View>(R.id.action_bar).measuredHeight
 
         val animator = ObjectAnimator.ofFloat(
             sheet,

@@ -18,8 +18,6 @@ import com.example.shestore.R
 import com.example.shestore.fragment.ImageViewPager
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.cardview_item.view.*
-import java.lang.Exception
 
 /**
  * This class is for view pager. It adds the image to side show view pager in item Detail

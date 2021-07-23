@@ -2,7 +2,6 @@ package com.example.shestore.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -12,15 +11,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
-import androidx.viewpager2.widget.ViewPager2
-import com.example.shestore.Adapter.ImageSliderAdapter
 import com.example.shestore.R
 import com.google.android.material.transition.MaterialContainerTransform
 import com.ortiz.touchview.TouchImageView
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.viewpager_zoom_image.*
-import java.lang.Exception
 
 class ImageViewPager : Fragment() {
 
