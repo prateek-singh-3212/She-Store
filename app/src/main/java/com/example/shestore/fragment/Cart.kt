@@ -1,10 +1,12 @@
 package com.example.shestore.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import com.example.shestore.Adapter.CartAdapter
+import com.example.shestore.Checkout
 import com.example.shestore.Model.setData
 import com.example.shestore.R
 
@@ -20,6 +23,7 @@ class Cart : Fragment() {
 
     private lateinit  var cartrv : RecyclerView
     private lateinit var cartToolbar : Toolbar
+    private lateinit var cartCheckout: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +44,18 @@ class Cart : Fragment() {
         cartrv.adapter = CartAdapter(setData())
         cartrv.layoutManager = LinearLayoutManager(context)
 
+        cartCheckout.setOnClickListener {
+            val intent : Intent = Intent(requireContext(), Checkout::class.java)
+            startActivity(intent)
+        }
+
         return view
     }
 
     private fun setViews(view: View) {
         cartrv = view.findViewById(R.id.cart_rv)
         cartToolbar = view.findViewById(R.id.cart_toolbar)
+        cartCheckout = view.findViewById(R.id.cart_checkout)
     }
 
     private fun setActionbar() {
