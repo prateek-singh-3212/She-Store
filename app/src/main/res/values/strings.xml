@@ -25,4 +25,9 @@
     <string name="buy_now">Buy Now</string>
 
 
+<!--    Payment Options-->
+    <string name="credit_card">Credit Card</string>
+    <string name="paypal">Paypal</string>
+    <string name="stripe">Stripe</string>
+    <string name="google_pay">Google Pay</string>
 </resources>
