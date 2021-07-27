@@ -2,7 +2,6 @@ package com.example.shestore.fragment
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
@@ -17,6 +16,7 @@ import com.example.shestore.Model.setTabData
 import com.example.shestore.R
 import com.example.shestore.Utility.NavigationIconClickListener
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialElevationScale
 import kotlinx.android.synthetic.main.fragment_item_card_viewer.view.*
 
@@ -42,16 +42,20 @@ class ItemCardViewer : Fragment(), ItemData {
          * eg. itemlist_recyclerview.adapter = context?.let { ItemAdapter(it, setData()) }
          */
 
-        if (context != null) {
-            // Sets the viewpager to view the data in tabs. on home screen.
-            viewpager.adapter = RecyclerViewSliderAdapter(setTabData(), viewpager, tabLayout, requireContext(), this)
-        } else {
-            Toast.makeText(context, "No Context Found", Toast.LENGTH_SHORT).show()
-        }
+        // Sets the viewpager to view the data in tabs. on home screen.
+        viewpager.adapter =
+            RecyclerViewSliderAdapter(setTabData(), requireContext(), this)
+
+        TabLayoutMediator(tabLayout, viewpager) { tab, position ->
+            val tabData = setTabData()
+            tab.text = tabData[position].catName
+            tab.setIcon(tabData[position].catImageResId)
+        }.attach()
+
         return view
     }
 
-    private fun setActionBar(view : View) {
+    private fun setActionBar(view: View) {
         /**
          * Sets the dropdown navbar (Back Drop). We can change the type of back drop from class NavigationIconClicklListener.
          */
@@ -74,7 +78,7 @@ class ItemCardViewer : Fragment(), ItemData {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.actionbar_item_card_viewer_mycart -> {
                 (context as FragmentActivity).supportFragmentManager.commit {
                     setReorderingAllowed(true)
@@ -125,7 +129,7 @@ class ItemCardViewer : Fragment(), ItemData {
         /**
          * Added On click backdrop functionality
          */
-        view.findViewById<View>(R.id.nav_backdrop_allcategories).setOnClickListener{
+        view.findViewById<View>(R.id.nav_backdrop_allcategories).setOnClickListener {
             (context as FragmentActivity).supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace(R.id.main_framelayout, AllCategories())

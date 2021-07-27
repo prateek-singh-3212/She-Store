@@ -11,15 +11,16 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shestore.Interface.ItemData
-import com.example.shestore.Model.itemList
+import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.R
+import com.example.shestore.Utility.HtmlParser
 import com.example.shestore.fragment.ItemDetail
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cardview_item.view.*
 
 class ItemAdapter(
     val context: Context,
-    val itemData: List<itemList>,
+    val itemData: List<WooCommerceItemsDetail>,
     val itemSelectListener: ItemData
 ) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
@@ -30,10 +31,10 @@ class ItemAdapter(
         ViewHolder(LayoutInflater.from(context).inflate(R.layout.cardview_item, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.itemName.text = itemData[position].itemName
-        holder.itemView.itemSubname.text = itemData[position].itemSubName
-        holder.itemView.itemPrice.text = "₹ ${itemData[position].price}"
-        Picasso.get().load(itemData[position].imageUrl?.toUri()).into(holder.itemView.itemImage)
+        holder.itemView.itemName.text = itemData[position].name
+        holder.itemView.itemSubname.text = HtmlParser.htmlToSpannedString(itemData[position].short_description)
+        holder.itemView.itemPrice.text = "$ ${itemData[position].price}"
+        Picasso.get().load(itemData[position].images[0].src.toUri()).into(holder.itemView.itemImage)
 
         /**
          * Set the Transition name here only not in onClick Listener. If we put there then it won't work
@@ -45,9 +46,9 @@ class ItemAdapter(
 
             val sendData: Bundle = bundleOf(
                 "transitionName" to "container_name_$position",
-                "itemName" to itemData[position].itemName,
-                "itemSubName" to itemData[position].itemSubName,
-                "imageURL" to itemData[position].imageUrl
+//                "itemName" to itemData[position].itemName,
+//                "itemSubName" to itemData[position].itemSubName,
+//                "imageURL" to itemData[position].imageUrl
             )
 
             itemSelectListener.onItemSelectedListener(sendData)
