@@ -1,10 +1,9 @@
 package com.example.shestore
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.example.shestore.R
 import com.example.shestore.fragment.User_Detail
 
 class Checkout : AppCompatActivity() {
