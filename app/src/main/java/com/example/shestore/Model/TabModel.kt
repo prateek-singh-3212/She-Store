@@ -13,38 +13,13 @@ fun setTabData(): List<TabModel> {
             "products?category=17"
         ),
         TabModel(
-            "Clothes",
-            R.drawable.ic_deress,
+            "Trending",
+            R.drawable.ic_trending,
             "products?category=32"
         ),
         TabModel(
-            "Beauty",
-            R.drawable.ic_beauty,
-            "products?category=17"
-        ),
-        TabModel(
-            "Gadgets",
-            R.drawable.ic_gadget,
-            "products?category=17"
-        ),
-        TabModel(
-            "Jewellery",
-            R.drawable.ic_jewellery,
-            "products?category=17"
-        ),
-        TabModel(
-            "Sports",
-            R.drawable.ic_sports,
-            "products?category=17"
-        ),
-        TabModel(
-            "Bags",
-            R.drawable.ic_bag,
-            "products?category=33"
-        ),
-        TabModel(
-            "Footwear",
-            R.drawable.ic_shoes,
+            "For You",
+            R.drawable.ic_heart,
             "products?category=17"
         )
     )

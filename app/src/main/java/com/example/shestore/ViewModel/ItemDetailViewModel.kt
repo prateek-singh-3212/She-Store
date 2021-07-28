@@ -5,25 +5,30 @@ import androidx.lifecycle.ViewModel
 import com.example.shestore.Interface.ItemDetailStatus
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.Repository.ItemDetailRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ItemDetailViewModel : ViewModel(), ItemDetailStatus {
+@HiltViewModel
+class ItemDetailViewModel @Inject constructor(
+) : ViewModel(), ItemDetailStatus {
 
     private var itemDetailRepo: ItemDetailRepository = ItemDetailRepository(this)
-    private var mutableProductData : MutableLiveData<List<WooCommerceItemsDetail>> = MutableLiveData()
-    private var mutableDataLoadingStatus : MutableLiveData<Boolean> = MutableLiveData()
-    private var mutableOnErrorOccurred : MutableLiveData<String> = MutableLiveData()
+    private var mutableProductData: MutableLiveData<List<WooCommerceItemsDetail>> =
+        MutableLiveData()
+    private var mutableDataLoadingStatus: MutableLiveData<Boolean> = MutableLiveData()
+    private var mutableOnErrorOccurred: MutableLiveData<String> = MutableLiveData()
 
 
-    fun getItemDetail(endpointOfData :String) : MutableLiveData<List<WooCommerceItemsDetail>> {
+    fun getItemDetail(endpointOfData: String): MutableLiveData<List<WooCommerceItemsDetail>> {
         itemDetailRepo.fetchProductDetails(endpointOfData)
         return mutableProductData
     }
 
-    fun isDataLoading() : MutableLiveData<Boolean> {
+    fun isDataLoading(): MutableLiveData<Boolean> {
         return mutableDataLoadingStatus
     }
 
-    fun getError() : MutableLiveData<String> {
+    fun getError(): MutableLiveData<String> {
         return mutableOnErrorOccurred
     }
 

@@ -3,6 +3,7 @@ package com.example.shestore.fragment
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
@@ -11,12 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shestore.Adapter.ImageSliderAdapter
 import com.example.shestore.Interface.ItemData
 import com.example.shestore.R
+import com.example.shestore.ViewModel.ItemDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -35,8 +38,12 @@ class ItemDetail : Fragment(), ItemData {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
+    private val itemDetailVM: ItemDetailViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("CCHH", "onCreateView: ${itemDetailVM}")
+
 
         /** To display the actionbar in fragment it is nessary to set this true.
          * else actionbar menu will not be displayed

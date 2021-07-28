@@ -1,30 +1,38 @@
 package com.example.shestore.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.commit
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.*
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shestore.Adapter.RecyclerViewSliderAdapter
 import com.example.shestore.Interface.ItemData
 import com.example.shestore.Model.setTabData
 import com.example.shestore.R
 import com.example.shestore.Utility.NavigationIconClickListener
+import com.example.shestore.ViewModel.ItemDetailViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialElevationScale
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_item_card_viewer.view.*
 
+@AndroidEntryPoint
 class ItemCardViewer : Fragment(), ItemData {
 
     private lateinit var toolbar: Toolbar
     private lateinit var tabLayout: TabLayout
     private lateinit var viewpager: ViewPager2
+
+    private val itemDetailVM: ItemDetailViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("CCHH", "onCreateView: ${itemDetailVM}")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,13 +52,27 @@ class ItemCardViewer : Fragment(), ItemData {
 
         // Sets the viewpager to view the data in tabs. on home screen.
         viewpager.adapter =
-            RecyclerViewSliderAdapter(setTabData(), requireContext(), this)
+            RecyclerViewSliderAdapter(itemDetailVM,setTabData(), requireActivity(), this)
 
         TabLayoutMediator(tabLayout, viewpager) { tab, position ->
             val tabData = setTabData()
             tab.text = tabData[position].catName
             tab.setIcon(tabData[position].catImageResId)
         }.attach()
+
+        tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+               tab?.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+        })
 
         return view
     }
