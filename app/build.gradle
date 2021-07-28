@@ -4,6 +4,10 @@ plugins {
     id 'kotlin-android-extensions'
 }
 
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -77,4 +81,8 @@ dependencies {
 
     // HTML Parser Backward Compatible
     implementation 'androidx.core:core-ktx:1.6.0'
+
+    // Dagger HILT
+    implementation "com.google.dagger:hilt-android:2.35.1"
+    kapt "com.google.dagger:hilt-compiler:2.35.1"
 }
