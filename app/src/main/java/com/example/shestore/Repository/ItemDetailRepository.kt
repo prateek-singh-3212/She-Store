@@ -9,10 +9,11 @@ import retrofit2.Response
 class ItemDetailRepository(private val itemDetailStatusListener: ItemDetailStatus) {
 
     private val itemDetail: ItemDetailAPI = ItemDetailAPI()
+    private val ioCoroutine = Coroutines
 
     fun fetchProductDetails(endpointOfData : String) {
 
-        Coroutines.launchIO {
+        ioCoroutine.launchIO {
             itemDetailStatusListener.dataLoadingStatus(true)
 
             val detail: Response<List<WooCommerceItemsDetail>> = itemDetail.getProductDetail(endpointOfData)
@@ -26,4 +27,6 @@ class ItemDetailRepository(private val itemDetailStatusListener: ItemDetailStatu
             }
         }
     }
+
+    fun cancelFetchRequest(cancelMessage: String) = ioCoroutine.cancelIOCoroutine(cancelMessage)
 }

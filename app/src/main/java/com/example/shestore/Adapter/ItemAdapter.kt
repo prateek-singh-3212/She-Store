@@ -1,39 +1,38 @@
 package com.example.shestore.Adapter
 
-import android.content.Context
-import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shestore.Interface.ItemData
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.R
 import com.example.shestore.Utility.HtmlParser
+import com.example.shestore.ViewModel.ItemDetailViewModel
 import com.example.shestore.fragment.ItemDetail
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cardview_item.view.*
 
 class ItemAdapter(
-    val context: Context,
-    val itemData: List<WooCommerceItemsDetail>,
-    val itemSelectListener: ItemData
+    private val fragmentActivity: FragmentActivity,
+    private val itemData: List<WooCommerceItemsDetail>
 ) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(LayoutInflater.from(context).inflate(R.layout.cardview_item, parent, false))
+        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.cardview_item, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.itemName.text = itemData[position].name
-        holder.itemView.itemSubname.text = HtmlParser.htmlToSpannedString(itemData[position].short_description)
-        holder.itemView.itemPrice.text = "$ ${itemData[position].price}"
+        holder.itemView.itemSubname.text = HtmlParser.htmlToSpannedString(itemData[position].short_description).toString()
+        holder.itemView.itemPrice.text = String.format("$%s", itemData[position].price)
+        holder.itemView.itemRateing.text = String.format("%s ★", itemData[position].average_rating)
         Picasso.get().load(itemData[position].images[0].src.toUri()).into(holder.itemView.itemImage)
 
         /**
@@ -44,18 +43,14 @@ class ItemAdapter(
 
         holder.itemView.setOnClickListener {
 
-            val sendData: Bundle = bundleOf(
-                "transitionName" to "container_name_$position",
-//                "itemName" to itemData[position].itemName,
-//                "itemSubName" to itemData[position].itemSubName,
-//                "imageURL" to itemData[position].imageUrl
-            )
+            val itemDetailVM : ItemDetailViewModel = ViewModelProvider(fragmentActivity).get(ItemDetailViewModel::class.java)
+            Log.d("FragmentTransition", "Fragment: $fragmentActivity ItemDataViewModel: $itemDetailVM")
+            itemDetailVM.setItemDetail(itemData[position])
+            itemDetailVM.setTransitionName(holder.itemView.cardview_item.transitionName)
 
-            itemSelectListener.onItemSelectedListener(sendData)
-
-            (context as FragmentActivity).supportFragmentManager.commit {
+            fragmentActivity.supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                addSharedElement(it, "container_name_$position")
+                addSharedElement(it, holder.itemView.cardview_item.transitionName)
                 replace(R.id.main_framelayout, ItemDetail())
                 addToBackStack(null)
             }

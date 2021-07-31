@@ -2,45 +2,19 @@ package com.example.shestore.ViewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.shestore.Interface.ItemDetailStatus
 import com.example.shestore.Model.WooCommerceItemsDetail
-import com.example.shestore.Repository.ItemDetailRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@HiltViewModel
-class ItemDetailViewModel @Inject constructor(
-) : ViewModel(), ItemDetailStatus {
+class ItemDetailViewModel @Inject constructor(): ViewModel() {
 
-    private var itemDetailRepo: ItemDetailRepository = ItemDetailRepository(this)
-    private var mutableProductData: MutableLiveData<List<WooCommerceItemsDetail>> =
-        MutableLiveData()
-    private var mutableDataLoadingStatus: MutableLiveData<Boolean> = MutableLiveData()
-    private var mutableOnErrorOccurred: MutableLiveData<String> = MutableLiveData()
+    private val itemDetail: MutableLiveData<WooCommerceItemsDetail> = MutableLiveData()
+    private val transitionName: MutableLiveData<String> = MutableLiveData()
 
+    fun setItemDetail(data: WooCommerceItemsDetail) = itemDetail.postValue(data)
 
-    fun getItemDetail(endpointOfData: String): MutableLiveData<List<WooCommerceItemsDetail>> {
-        itemDetailRepo.fetchProductDetails(endpointOfData)
-        return mutableProductData
-    }
+    fun getItemDetail(): MutableLiveData<WooCommerceItemsDetail> = itemDetail
 
-    fun isDataLoading(): MutableLiveData<Boolean> {
-        return mutableDataLoadingStatus
-    }
+    fun getTransitionName() : MutableLiveData<String> = transitionName
 
-    fun getError(): MutableLiveData<String> {
-        return mutableOnErrorOccurred
-    }
-
-    override fun dataLoadingStatus(isDataLoading: Boolean) {
-        mutableDataLoadingStatus.postValue(isDataLoading)
-    }
-
-    override fun onLoadComplete(itemData: List<WooCommerceItemsDetail>) {
-        mutableProductData.postValue(itemData)
-    }
-
-    override fun onErrorOccurred(error: String) {
-        mutableOnErrorOccurred.postValue(error)
-    }
+    fun setTransitionName(transitionName: String) = this.transitionName.postValue(transitionName)
 }

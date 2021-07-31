@@ -26,9 +26,11 @@ class WooCommerceAPIClient {
             // Making OkHTTP Client
             val client: OkHttpClient = OkHttpClient().newBuilder()
                 .addInterceptor(SigningInterceptor(consumer))
-//                .addInterceptor(logInterceptor)
+                .addInterceptor(logInterceptor)
                 .build()
 
+            // TODO: App Crashes when response from server is in html
+            //  (Rare occurs when server redirects the request to another webpage)
             retrofit = Retrofit.Builder()
                 .baseUrl("https://shestoreandroid.000webhostapp.com/wp-json/wc/v3/")
                 .addConverterFactory(GsonConverterFactory.create())

@@ -1,38 +1,31 @@
 package com.example.shestore.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
+import androidx.fragment.app.setFragmentResult
 import androidx.viewpager2.widget.ViewPager2
-import com.example.shestore.Adapter.RecyclerViewSliderAdapter
+import com.example.shestore.Adapter.FragmentSliderAdapter
 import com.example.shestore.Interface.ItemData
 import com.example.shestore.Model.setTabData
 import com.example.shestore.R
+import com.example.shestore.Utility.Constants
 import com.example.shestore.Utility.NavigationIconClickListener
-import com.example.shestore.ViewModel.ItemDetailViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialElevationScale
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_item_card_viewer.view.*
 
-@AndroidEntryPoint
-class ItemCardViewer : Fragment(), ItemData {
+class MainFragment : Fragment(), ItemData {
 
     private lateinit var toolbar: Toolbar
     private lateinit var tabLayout: TabLayout
     private lateinit var viewpager: ViewPager2
-
-    private val itemDetailVM: ItemDetailViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("CCHH", "onCreateView: ${itemDetailVM}")
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,14 +38,13 @@ class ItemCardViewer : Fragment(), ItemData {
         setActionBar(view)
 
 
-        /** TODO('If I use 'kotlin-android-extensions' this extention then app will crash
+        /** TODO('If I use 'kotlin-android-extensions' this extension then app will crash
          * because it will not be able to find out view')
-         * eg. itemlist_recyclerview.adapter = context?.let { ItemAdapter(it, setData()) }
+         * eg. itemList_recyclerview.adapter = context?.let { ItemAdapter(it, setData()) }
          */
 
         // Sets the viewpager to view the data in tabs. on home screen.
-        viewpager.adapter =
-            RecyclerViewSliderAdapter(itemDetailVM,setTabData(), requireActivity(), this)
+        viewpager.adapter = FragmentSliderAdapter(this, setTabData())
 
         TabLayoutMediator(tabLayout, viewpager) { tab, position ->
             val tabData = setTabData()
@@ -60,26 +52,12 @@ class ItemCardViewer : Fragment(), ItemData {
             tab.setIcon(tabData[position].catImageResId)
         }.attach()
 
-        tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-               tab?.position
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-        })
-
         return view
     }
 
     private fun setActionBar(view: View) {
         /**
-         * Sets the dropdown navbar (Back Drop). We can change the type of back drop from class NavigationIconClicklListener.
+         * Sets the dropdown navbar (Back Drop). We can change the type of back drop from class NavigationIconClickListener.
          */
         setHasOptionsMenu(true)
 
@@ -114,7 +92,6 @@ class ItemCardViewer : Fragment(), ItemData {
     }
 
     private fun setViews(view: View) {
-//        recyclerView = view.findViewById(R.id.itemlist_recyclerview)
         toolbar = view.findViewById(R.id.action_bar)
         tabLayout = view.findViewById(R.id.itemList_tab)
         viewpager = view.findViewById(R.id.itemList_viewpager)
@@ -132,10 +109,10 @@ class ItemCardViewer : Fragment(), ItemData {
              * between transition
              */
 
-            duration = 300L
+            duration = Constants.TRANSITION_TIME
         }
         reenterTransition = MaterialElevationScale(true).apply {
-            duration = 300L
+            duration = Constants.TRANSITION_TIME
         }
     }
 
