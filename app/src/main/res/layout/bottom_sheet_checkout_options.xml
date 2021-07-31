@@ -33,14 +33,17 @@
     <ImageView
         android:id="@+id/bottom_sheet_image"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:adjustViewBounds="true"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:scaleType="centerCrop"
+        android:layout_marginBottom="10dp"
+        android:scaleType="fitXY"
         android:src="@drawable/favorite_border"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_sheet_size_selector"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_seprator" />
 
@@ -77,12 +80,14 @@
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_item_name" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/bottom_sheet_additem"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_margin="10dp"
+        android:elevation="8dp"
         android:src="@drawable/add_circle"
+        android:background="@drawable/icon_background"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_item_subname" />
 
@@ -93,7 +98,7 @@
         android:maxLines="1"
         android:text="1"
         android:layout_margin="10dp"
-        android:textSize="13sp"
+        android:textSize="16sp"
         android:fontFamily="@font/mplusregular"
         android:textColor="@color/font_main"
         app:layout_constraintBottom_toBottomOf="@+id/bottom_sheet_additem"
@@ -102,12 +107,14 @@
         app:layout_constraintTop_toTopOf="@+id/bottom_sheet_additem" />
 
 
-    <ImageView
+    <ImageButton
         android:id="@+id/bottom_sheet_removeitem"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_margin="10dp"
         android:src="@drawable/remove_circle"
+        android:background="@drawable/icon_background"
+        android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/bottom_sheet_additem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bottom_sheet_additem" />
@@ -122,83 +129,43 @@
         android:text="₹ PRICE"
         android:textColor="@color/font_main"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_sheet_size_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_additem" />
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_additem"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/bottom_sheet_size_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:foregroundGravity="center"
+        android:elevation="8dp"
         android:theme="@style/Theme.MaterialComponents.Light"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_sheet_add_to_cart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
         app:selectionRequired="true"
-        app:singleSelection="true">
-
-        <com.google.android.material.chip.Chip
-            style="@style/chipStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="S"
-            android:theme="@style/Theme.MaterialComponents.Light" />
-
-        <com.google.android.material.chip.Chip
-            style="@style/chipStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="M"
-            android:theme="@style/Theme.MaterialComponents.Light" />
-
-        <com.google.android.material.chip.Chip
-            style="@style/chipStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="L"
-            android:theme="@style/Theme.MaterialComponents.Light" />
-
-        <com.google.android.material.chip.Chip
-            style="@style/chipStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="XL"
-            android:theme="@style/Theme.MaterialComponents.Light" />
-
-        <com.google.android.material.chip.Chip
-            style="@style/chipStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="XXL"
-            android:theme="@style/Theme.MaterialComponents.Light" />
-
-        <com.google.android.material.chip.Chip
-            style="@style/chipStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="XXXL"
-            android:theme="@style/Theme.MaterialComponents.Light" />
-
-    </com.google.android.material.chip.ChipGroup>
-
+        app:singleSelection="true" />
 
     <Button
         android:id="@+id/bottom_sheet_checkout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:background="@drawable/button_background"
         android:fontFamily="@font/mplusbold"
         android:text="Checkout"
         android:textColor="@color/white"
+        android:layout_marginBottom="10dp"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_size_selector" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/bottom_sheet_add_to_cart"
@@ -206,17 +173,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5sp"
         android:layout_marginEnd="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button_background"
+        android:backgroundTint="@color/white"
+        android:backgroundTintMode="src_in"
         android:fontFamily="@font/mplusbold"
         android:text="Add to Cart"
-        android:backgroundTintMode="src_in"
-        android:backgroundTint="@color/white"
         android:textColor="@color/pink_500"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_size_selector" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -225,12 +194,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.60" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
