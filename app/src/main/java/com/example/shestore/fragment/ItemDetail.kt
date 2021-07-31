@@ -4,14 +4,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.RatingBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -23,6 +22,7 @@ import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.R
 import com.example.shestore.Utility.Constants
 import com.example.shestore.Utility.HtmlParser
+import com.example.shestore.Utility.RoundImageviewCorner
 import com.example.shestore.ViewModel.ItemDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
@@ -31,6 +31,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -51,6 +53,18 @@ class ItemDetail : Fragment() {
     private lateinit var ratingBar: RatingBar
     private lateinit var headerRating: TextView
     private lateinit var itemDetailContainer: ConstraintLayout
+
+    // BottomSheet View.
+    private lateinit var bsItemImage: ImageView
+    private lateinit var bsItemSubname: TextView
+    private lateinit var bsItemName: TextView
+    private lateinit var bsPrice: TextView
+    private lateinit var bsSizeChip: ChipGroup
+    private lateinit var bsAddQuantity: ImageButton
+    private lateinit var bsRemoveQuantity: ImageButton
+    private lateinit var bsQuantity: TextView
+    private lateinit var bsAddToCart: Button
+    private lateinit var bsCheckout: Button
 
     private val mainScope: CoroutineScope = MainScope()
 
@@ -183,14 +197,94 @@ class ItemDetail : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        buyNow.setOnClickListener {
-            val bottomDialogue: BottomSheetDialog? =
-                context?.let { it1 -> BottomSheetDialog(it1, R.style.BottomSheetDialogeTheme) }
-            val bottomSheetInflater: View = LayoutInflater.from(activity?.applicationContext)
-                .inflate(R.layout.bottom_sheet_checkout_options, null)
 
-            bottomDialogue?.setContentView(bottomSheetInflater)
-            bottomDialogue?.show()
+        buyNow.setOnClickListener {
+            setUpBottomSheet()
+        }
+
+    }
+
+    private fun setUpBottomSheet() {
+        val bottomDialogue: BottomSheetDialog? =
+            context?.let { it1 -> BottomSheetDialog(it1, R.style.BottomSheetDialogeTheme) }
+        val bottomSheetInflater: View = LayoutInflater.from(activity?.applicationContext)
+            .inflate(R.layout.bottom_sheet_checkout_options, null)
+
+        setBottomSheetViews(bottomSheetInflater)
+
+        itemDetailVM.getItemDetail().observe(requireActivity()) {
+            setDataInBottomSheet(it)
+        }
+
+        bsAddQuantity.setOnClickListener {
+            val currentQuantity: Int = bsQuantity.text.toString().toInt()
+            bsQuantity.text = (currentQuantity + 1).toString()
+        }
+
+        bsRemoveQuantity.setOnClickListener {
+            val currentQuantity: Int = bsQuantity.text.toString().toInt()
+            if (currentQuantity <= 1) {
+                bsQuantity.text = "1"
+            } else {
+                bsQuantity.text = (currentQuantity - 1).toString()
+            }
+        }
+
+        bsAddToCart.setOnClickListener {
+            //TODO: Implement Add to cart functionality
+        }
+
+
+        bsCheckout.setOnClickListener {
+            //TODO: Implement Checkout functionality
+        }
+
+        bottomDialogue?.setContentView(bottomSheetInflater)
+        bottomDialogue?.show()
+    }
+
+    private fun setBottomSheetViews(view: View) {
+        bsItemImage = view.findViewById(R.id.bottom_sheet_image)
+        bsItemName = view.findViewById(R.id.bottom_sheet_item_name)
+        bsItemSubname = view.findViewById(R.id.bottom_sheet_item_subname)
+        bsPrice = view.findViewById(R.id.bottom_sheet_item_price)
+        bsSizeChip = view.findViewById(R.id.bottom_sheet_size_selector)
+        bsAddQuantity = view.findViewById(R.id.bottom_sheet_additem)
+        bsRemoveQuantity = view.findViewById(R.id.bottom_sheet_removeitem)
+        bsQuantity = view.findViewById(R.id.bottom_sheet_item_quantity)
+        bsAddToCart = view.findViewById(R.id.bottom_sheet_add_to_cart)
+        bsCheckout = view.findViewById(R.id.bottom_sheet_checkout)
+    }
+
+
+    private fun setDataInBottomSheet(data: WooCommerceItemsDetail) {
+
+        Picasso.get().load(data.images[0].src).placeholder(R.drawable.close_icon)
+            .error(R.drawable.ic_launcher_background).transform(RoundImageviewCorner(20, 0)).into(bsItemImage)
+
+        bsItemName.text = data.name
+        bsPrice.text = HtmlParser.htmlToSpannedString(data.price_html)
+        bsItemSubname.text = HtmlParser.htmlToSpannedString(data.short_description).toString()
+
+        // Don' add any other operation below this. If doesn't contains  the set it invisible
+        if (data.attributes.isEmpty()) {
+            bsSizeChip.visibility = View.GONE
+            return
+        }
+
+        if (!data.attributes[0].name.equals(Constants.ATTRIBUTE_SIZE)) {
+            bsSizeChip.visibility = View.GONE
+            return
+        }
+
+        mainScope.launch {
+            for (size in data.attributes[0].options) {
+                val chip = Chip(requireContext())
+                chip.text = size
+                chip.setTextColor(ResourcesCompat.getColor(resources, R.color.font_main, null))
+                chip.setChipBackgroundColorResource(R.color.white)
+                bsSizeChip.addView(chip)
+            }
         }
     }
 
