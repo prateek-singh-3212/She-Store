@@ -1,34 +1,42 @@
 package com.example.shestore.fragment
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Button
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shestore.Adapter.ImageSliderAdapter
 import com.example.shestore.Interface.ItemData
+import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.R
+import com.example.shestore.Utility.Constants
+import com.example.shestore.Utility.HtmlParser
 import com.example.shestore.ViewModel.ItemDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
-import kotlinx.android.synthetic.main.fragment_item_detail.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
-// TODO : Pass slide in the imageURL list (ViewModel)
-class ItemDetail : Fragment(), ItemData {
+class ItemDetail : Fragment() {
 
     private lateinit var buyNow: Button
     private lateinit var toolbar: Toolbar
@@ -37,15 +45,19 @@ class ItemDetail : Fragment(), ItemData {
     private lateinit var itemPrice: TextView
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
+    private lateinit var itemDetailVM: ItemDetailViewModel
+    private lateinit var description: TextView
+    private lateinit var tagsChipGroup: ChipGroup
+    private lateinit var ratingBar: RatingBar
+    private lateinit var headerRating: TextView
+    private lateinit var itemDetailContainer: ConstraintLayout
 
-    private val itemDetailVM: ItemDetailViewModel by activityViewModels()
+    private val mainScope: CoroutineScope = MainScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("CCHH", "onCreateView: ${itemDetailVM}")
 
-
-        /** To display the actionbar in fragment it is nessary to set this true.
+        /** To display the actionbar in fragment it is necessary to set this true.
          * else actionbar menu will not be displayed
          */
         setHasOptionsMenu(true)
@@ -56,21 +68,9 @@ class ItemDetail : Fragment(), ItemData {
          * */
 
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = 300L
+            duration = Constants.TRANSITION_TIME
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.WHITE)
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        setFragmentResultListener("itemDetails") { requestKey, bundle ->
-
-            itemDetail_continer.transitionName = bundle.getString("transitionName")
-
-            itemName.text = bundle.getString("itemName")
-            itemSubname.text = bundle.getString("itemSubName")
-            itemPrice.text = "₹ 500.00"
         }
     }
 
@@ -83,29 +83,97 @@ class ItemDetail : Fragment(), ItemData {
         setViews(view)
         setActionBar()
 
-        val imageURL = listOf(
-            "http://placehold.it/120x120&text=image4",
-            "https://assets.myntassets.com/h_1440,q_90,w_1080/v1/assets/images/10207437/2019/12/13/12c817d6-99be-41d7-ad31-f1f08bb1fb331576236930328-W-Women-Orange-Self-Design-Maxi-Dress-7401576236928026-1.jpg",
-            "http://shestore.unaux.com/wp-content/uploads/2021/07/0b8e7b6b-f912-4f82-9536-80544b9127631582784256862-Daniel-Klein-Women-Black-Analogue-Watch-DK11421-5-1721582784-1.jpg"
-        )
+        itemDetailVM = ViewModelProvider(requireActivity()).get(ItemDetailViewModel::class.java)
 
-        viewPager.adapter = context?.let { ImageSliderAdapter(it, imageURL, viewPager, this) }
-        // syncronize the tabLayout with viewpager
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = "${(position + 1)}"
-        }.attach()
+        Log.d("FragmentTransition", "Fragment: $parentFragmentManager ItemDataViewModel: $itemDetailVM")
+
+        itemDetailVM.getItemDetail().observe(requireActivity()) {
+            setDataInFragment(it)
+        }
+
+        itemDetailVM.getTransitionName().observe(requireActivity()) {
+            itemDetailContainer.transitionName = it
+        }
 
         return view
+    }
+
+    private fun setDataInFragment(data: WooCommerceItemsDetail) {
+        // Header
+        itemName.text = data.name
+        itemPrice.text = HtmlParser.htmlToSpannedString(data.price_html)
+        itemSubname.text = HtmlParser.htmlToSpannedString(data.short_description).toString()
+        headerRating.text = String.format("%s ★", data.average_rating)
+
+        // Description
+        description.text = HtmlParser.htmlToSpannedString(data.description)
+
+        // Tags
+        mainScope.launch {
+            for (tag in data.tags) {
+                val chip = Chip(requireContext())
+                chip.text = tag.name
+                chip.setTextColor(ResourcesCompat.getColor(resources, R.color.font_main, null))
+                chip.setChipBackgroundColorResource(R.color.pink_primary)
+                tagsChipGroup.addView(chip)
+            }
+        }
+
+        // Images In Slide Show
+        mainScope.launch {
+            val imageURL = mutableListOf<String>()
+
+            for (image in data.images) {
+                imageURL.add(image.src)
+            }
+
+            viewPager.adapter =
+                ImageSliderAdapter(requireActivity(), imageURL, object : ItemData {
+                    override fun onItemSelectedListener(bundle: Bundle) {
+                        setFragmentResult(Constants.KEY_ITEM_SLIDE_IMAGE_FRAGMENT_DATA, bundle)
+
+                        exitTransition = MaterialElevationScale(false).apply {
+                            duration = Constants.TRANSITION_TIME
+                        }
+                        reenterTransition = MaterialElevationScale(true).apply {
+                            duration = Constants.TRANSITION_TIME
+                        }
+                    }
+
+                })
+
+            // synchronize the tabLayout with viewpager
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = "${(position + 1)}"
+            }.attach()
+        }
+
+        // Reviews
+        ratingBar.rating = data.average_rating.toFloat()
     }
 
     private fun setViews(view: View) {
         buyNow = view.findViewById(R.id.itemDetail_buynow)
         toolbar = view.findViewById(R.id.itemDetail_actionbar)
+        itemDetailContainer = view.findViewById(R.id.itemDetail_continer)
+
+        // Header
         itemName = view.findViewById(R.id.cardview_itemDetail_title)
         itemPrice = view.findViewById(R.id.cardview_itemDetail_price)
         itemSubname = view.findViewById(R.id.cardview_itemDetail_subname)
         viewPager = view.findViewById(R.id.cardview_itemDetail_viewpager)
         tabLayout = view.findViewById(R.id.cardview_itemDetail_tablayout)
+        headerRating = view.findViewById(R.id.cardview_itemDetail_itemRateing)
+
+
+        //Description
+        description = view.findViewById(R.id.itemDetail_product_description)
+
+        //Tags
+        tagsChipGroup = view.findViewById(R.id.itemDetail_tags_chipgroup)
+
+        //Rating
+        ratingBar = view.findViewById(R.id.itemDetail_ratingBar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -161,14 +229,9 @@ class ItemDetail : Fragment(), ItemData {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onItemSelectedListener(bundle: Bundle) {
-        setFragmentResult("itemSlideImage", bundle)
-
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = 300L
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = 300L
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        /** Cancel the coroutine scope whenever the activity destroys else it show context not found when clicked on item 2nd time*/
+        mainScope.cancel("ItemDetail Fragment Closed")
     }
 }

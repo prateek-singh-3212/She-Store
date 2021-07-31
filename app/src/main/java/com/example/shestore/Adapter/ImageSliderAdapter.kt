@@ -1,6 +1,5 @@
 package com.example.shestore.Adapter
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.example.shestore.Interface.ItemData
 import com.example.shestore.R
 import com.example.shestore.fragment.ImageViewPager
@@ -21,10 +19,11 @@ import com.squareup.picasso.Picasso
 
 /**
  * This class is for view pager. It adds the image to side show view pager in item Detail
- * TODO: Add Transition name in COnstants file
+ * TODO: Add Transition name in Constants file
  * */
-class ImageSliderAdapter(val context: Context, val imageURL: List<String>, viewPager2: ViewPager2,
-                val onItemSelectedListener : ItemData) :
+class ImageSliderAdapter(
+    private val fragmentActivity: FragmentActivity, private val imageURL: List<String>,
+    val onItemSelectedListener : ItemData) :
     RecyclerView.Adapter<ImageSliderAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -32,13 +31,13 @@ class ImageSliderAdapter(val context: Context, val imageURL: List<String>, viewP
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ImageSliderAdapter.ViewHolder {
+    ): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.viewpager_image, parent, false)
+            LayoutInflater.from(fragmentActivity).inflate(R.layout.viewpager_image, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: ImageSliderAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val view: ImageView = holder.itemView.findViewById(R.id.viewpager_imageview)
 
         holder.itemView.transitionName = "slide_image_$position"
@@ -58,7 +57,7 @@ class ImageSliderAdapter(val context: Context, val imageURL: List<String>, viewP
         holder.itemView.setOnClickListener {
 
             /**
-             * Trasfering the data to ImageViewPager Fragment to view Image.
+             * Transferring the data to ImageViewPager Fragment to view Image.
              * Used Material Transition in it.
              *  */
 
@@ -69,7 +68,7 @@ class ImageSliderAdapter(val context: Context, val imageURL: List<String>, viewP
 
             onItemSelectedListener.onItemSelectedListener(sendData)
 
-            (context as FragmentActivity).supportFragmentManager.commit {
+            fragmentActivity.supportFragmentManager.commit {
                 addToBackStack(null)
                 addSharedElement(it, "slide_image_$position")
                 replace(R.id.main_framelayout, ImageViewPager())

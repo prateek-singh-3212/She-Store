@@ -12,6 +12,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.shestore.R
+import com.example.shestore.Utility.Constants
 import com.google.android.material.transition.MaterialContainerTransform
 import com.ortiz.touchview.TouchImageView
 import com.squareup.picasso.Picasso
@@ -20,12 +21,12 @@ import kotlinx.android.synthetic.main.viewpager_zoom_image.*
 class ImageViewPager : Fragment() {
 
     private lateinit var touchImageView: TouchImageView
-    private lateinit var actiobar: Toolbar
+    private lateinit var actionbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = 300L
+            duration = Constants.TRANSITION_TIME
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.WHITE)
         }
@@ -40,9 +41,13 @@ class ImageViewPager : Fragment() {
         setViews(view)
         setActionbar()
 
-        // Data comming from Image Detail
-        // TODO: Extract request key to constant file
+        // Data coming from Image Detail
         setFragmentResultListener("itemSlideImage") { requestKey, bundle ->
+
+            if (requestKey != Constants.KEY_ITEM_SLIDE_IMAGE_FRAGMENT_DATA) {
+                // If Key is not equal then returning back
+                requireActivity().onBackPressed()
+            }
 
             viewpager_zoom.transitionName = bundle.getString("transitionName").toString()
 
@@ -51,12 +56,12 @@ class ImageViewPager : Fragment() {
                 .into(touchImageView)
         }
 
-        return view;
+        return view
     }
 
     private fun setActionbar() {
         setHasOptionsMenu(true)
-        (activity as AppCompatActivity).setSupportActionBar(actiobar)
+        (activity as AppCompatActivity).setSupportActionBar(actionbar)
         val toolbar = (activity as AppCompatActivity).supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.close_icon)
         toolbar?.setDisplayHomeAsUpEnabled(true)
@@ -65,7 +70,7 @@ class ImageViewPager : Fragment() {
 
     private fun setViews(view: View) {
         touchImageView = view.findViewById(R.id.viewpager_touch_imageview)
-        actiobar = view.findViewById(R.id.viewpager_touch_toolbar)
+        actionbar = view.findViewById(R.id.viewpager_touch_toolbar)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

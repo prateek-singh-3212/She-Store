@@ -4,9 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.example.shestore.fragment.ItemCardViewer
+import com.example.shestore.fragment.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.system.measureTimeMillis
 
 /**
  * To Learn Material Transformation GOTO https://developersbreach.com/shared-element-transition-android/
@@ -21,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.commit {
-            replace<ItemCardViewer>(R.id.main_framelayout)
+            replace<MainFragment>(R.id.main_framelayout)
         }
     }
 }

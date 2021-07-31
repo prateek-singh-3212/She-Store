@@ -7,20 +7,23 @@ data class TabModel(val catName: String, @DrawableRes val catImageResId: Int, va
 
 fun setTabData(): List<TabModel> {
     return listOf(
+        // Clothes
         TabModel(
             "Home",
             R.drawable.ic_home,
-            "products?category=17"
+            "products?category=16"
         ),
+        // Footwear
         TabModel(
             "Trending",
             R.drawable.ic_trending,
             "products?category=32"
         ),
+        // Jewellery
         TabModel(
             "For You",
             R.drawable.ic_heart,
-            "products?category=17"
+            "products?category=48"
         )
     )
 }
