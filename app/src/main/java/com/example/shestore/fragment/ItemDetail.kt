@@ -17,6 +17,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shestore.Adapter.ImageSliderAdapter
+import com.example.shestore.Database.Entity.CartWishlistEntity
 import com.example.shestore.Interface.ItemData
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.R
@@ -318,6 +319,19 @@ class ItemDetail : Fragment() {
             }
             R.id.action_bar_itemdetail_like -> {
                 // TODO: Add the item to like cart
+                itemDetailVM.getItemDetail().observe(this) {
+                    val data = CartWishlistEntity(
+                        it.id,
+                        it.name,
+                        System.currentTimeMillis(),
+                        it.status,
+                        0,
+                        1,
+                        "XL",
+                        "https://google.com"
+                        )
+                    itemDetailVM.addToWishlist(this.requireContext(), data)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
