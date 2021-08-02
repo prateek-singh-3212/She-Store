@@ -42,6 +42,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ItemDetail : Fragment() {
 
@@ -219,9 +220,9 @@ class ItemDetail : Fragment() {
             setDataInBottomSheet(it)
             itemDetailVM.checkCartStatus(bottomSheetInflater.context, it.id).observe(this) {
                 if (it == 0) {
-                    bsAddToCart.text = "Add To Cart"
+                    bsAddToCart.text = getString(R.string.add_to_cart)
                 } else {
-                    bsAddToCart.text = "✔ Added"
+                    bsAddToCart.text = getString(R.string.added_to_cart)
                 }
             }
         }
@@ -242,8 +243,14 @@ class ItemDetail : Fragment() {
 
         bsAddToCart.setOnClickListener {
             //Implemented Add to cart functionality
+            var selectedChipText : String? = null
 
-            if (bsSizeChip.visibility != View.GONE && bsSizeChip.checkedChipId == View.NO_ID) {
+            // TODO : WARNING!!! NEED TO CHANGE IN FUTURE. GET DATA FROM DATABSE AND CHECK THE STATUS
+            val checkButtonText : Boolean = bsAddToCart.text.toString()
+                    .lowercase(Locale.getDefault())
+                    .equals(getString(R.string.add_to_cart).lowercase(Locale.getDefault()))
+
+            if (bsSizeChip.visibility != View.GONE && bsSizeChip.checkedChipId == View.NO_ID && checkButtonText) {
                 Snackbar.make(bottomSheetInflater, "Select Size", Snackbar.LENGTH_SHORT).apply {
                     anchorView = bottomSheetInflater
                     animationMode = Snackbar.ANIMATION_MODE_SLIDE
@@ -253,8 +260,9 @@ class ItemDetail : Fragment() {
                 return@setOnClickListener
             }
 
-            val selectedChipText = bsSizeChip.findViewById<Chip>(bsSizeChip.checkedChipId).text.toString()
-
+            if (bsSizeChip.visibility != View.GONE && checkButtonText) {
+                selectedChipText = bsSizeChip.findViewById<Chip>(bsSizeChip.checkedChipId).text.toString()
+            }
 
             itemDetailVM.getItemDetail().observe(this) {
                 val data = CartEntity(
@@ -263,7 +271,7 @@ class ItemDetail : Fragment() {
                     System.currentTimeMillis(),
                     it.status,
                     bsQuantity.text.toString().toInt(),
-                    selectedChipText,
+                    selectedChipText ?: "NR",
                     it.permalink
                 )
                 itemDetailVM.addToCart(requireContext(), data)
