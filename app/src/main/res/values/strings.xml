@@ -23,6 +23,8 @@
     <string name="product_details">Product Details:</string>
     <string name="product_description">Product Description:</string>
     <string name="buy_now">Buy Now</string>
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="added_to_cart">✔ Added</string>
 
 
     <!--    Payment Options-->
