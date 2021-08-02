@@ -1,16 +1,19 @@
 package com.example.shestore.Database
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.sqlite.db.SupportSQLiteOpenHelper
-import com.example.shestore.Database.DAO.CartWishlistDAO
-import com.example.shestore.Database.Entity.CartWishlistEntity
+import com.example.shestore.Database.DAO.CartDAO
+import com.example.shestore.Database.DAO.WishlistDAO
+import com.example.shestore.Database.Entity.CartEntity
+import com.example.shestore.Database.Entity.WishlistEntity
 
-@androidx.room.Database(entities = [CartWishlistEntity::class], version = 2)
+@androidx.room.Database(entities = [WishlistEntity::class, CartEntity::class], version = 1)
 abstract class Database : RoomDatabase() {
 
-    abstract fun cartWishListDAO(): CartWishlistDAO
+    abstract fun WishListDAO(): WishlistDAO
+    abstract fun CartDAO(): CartDAO
 
     companion object {
         private var instance: Database? = null
@@ -34,12 +37,7 @@ abstract class Database : RoomDatabase() {
         private val roomCallback = object : Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-//                populateDatabase(instance!!)
             }
-        }
-
-        private fun populateDatabase(db: Database) {
-            val cartWishListDAO = db.cartWishListDAO()
         }
     }
 }
