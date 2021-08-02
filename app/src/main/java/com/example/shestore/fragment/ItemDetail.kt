@@ -1,5 +1,6 @@
 package com.example.shestore.fragment
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -10,13 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.children
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shestore.Adapter.ImageSliderAdapter
+import com.example.shestore.Database.Entity.CartEntity
 import com.example.shestore.Database.Entity.WishlistEntity
+import com.example.shestore.Interface.FeedbackType
 import com.example.shestore.Interface.ItemData
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.R
@@ -212,6 +217,13 @@ class ItemDetail : Fragment() {
 
         itemDetailVM.getItemDetail().observe(requireActivity()) {
             setDataInBottomSheet(it)
+            itemDetailVM.checkCartStatus(bottomSheetInflater.context, it.id).observe(this) {
+                if (it == 0) {
+                    bsAddToCart.text = "Add To Cart"
+                } else {
+                    bsAddToCart.text = "✔ Added"
+                }
+            }
         }
 
         bsAddQuantity.setOnClickListener {
@@ -229,7 +241,33 @@ class ItemDetail : Fragment() {
         }
 
         bsAddToCart.setOnClickListener {
-            //TODO: Implement Add to cart functionality
+            //Implemented Add to cart functionality
+
+            if (bsSizeChip.visibility != View.GONE && bsSizeChip.checkedChipId == View.NO_ID) {
+                Snackbar.make(bottomSheetInflater, "Select Size", Snackbar.LENGTH_SHORT).apply {
+                    anchorView = bottomSheetInflater
+                    animationMode = Snackbar.ANIMATION_MODE_SLIDE
+                    setBackgroundTint(ResourcesCompat.getColor(resources,R.color.pink_200, null))
+                    setTextColor(ResourcesCompat.getColor(resources,R.color.font_main, null))
+                }.show()
+                return@setOnClickListener
+            }
+
+            val selectedChipText = bsSizeChip.findViewById<Chip>(bsSizeChip.checkedChipId).text.toString()
+
+
+            itemDetailVM.getItemDetail().observe(this) {
+                val data = CartEntity(
+                    it.id,
+                    it.name,
+                    System.currentTimeMillis(),
+                    it.status,
+                    bsQuantity.text.toString().toInt(),
+                    selectedChipText,
+                    it.permalink
+                )
+                itemDetailVM.addToCart(requireContext(), data)
+            }
         }
 
 
@@ -255,6 +293,7 @@ class ItemDetail : Fragment() {
     }
 
 
+    @SuppressLint("ResourceType")
     private fun setDataInBottomSheet(data: WooCommerceItemsDetail) {
 
         Picasso.get().load(data.images[0].src).placeholder(R.drawable.close_icon)
@@ -281,7 +320,9 @@ class ItemDetail : Fragment() {
                 val chip = Chip(requireContext())
                 chip.text = size
                 chip.setTextColor(ResourcesCompat.getColor(resources, R.color.font_main, null))
-                chip.setChipBackgroundColorResource(R.color.white)
+                chip.isCheckable = true
+                chip.isClickable = true
+                chip.setChipBackgroundColorResource(R.drawable.chip_background)
                 bsSizeChip.addView(chip)
             }
         }
@@ -347,10 +388,15 @@ class ItemDetail : Fragment() {
                     itemDetailVM.addToWishlist(this.requireContext(), data)
 
                 }
-
+                // Showing SnackBar
                 itemDetailVM.getFeedback().observe(this) {
-                    // Showing SnackBar
-                    Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)
+
+                    // If message is not of given type then return
+                    if (!it.containsKey(FeedbackType.WISHLIST)) {
+                        return@observe
+                    }
+
+                    Snackbar.make(requireView(), it.get(FeedbackType.WISHLIST)!!, Snackbar.LENGTH_SHORT)
                         .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
                         .setAnchorView(buyNow)
                         .show()

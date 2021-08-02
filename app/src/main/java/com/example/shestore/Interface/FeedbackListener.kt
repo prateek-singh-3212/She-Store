@@ -7,5 +7,13 @@ package com.example.shestore.Interface
 interface FeedbackListener {
 
     /** Get's the message in the form of STRING*/
-    fun message(response: String)
+    fun message(type :FeedbackType, response: String)
+}
+
+/**
+ * Register the feedback that you want to listen
+ * */
+enum class FeedbackType {
+    CART,
+    WISHLIST
 }
