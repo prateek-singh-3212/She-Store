@@ -3,8 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1953125" />
+        <entry key="app/src/main/res/drawable/chip_background.xml" value="0.15462962962962962" />
         <entry key="app/src/main/res/drawable/favorite_border.xml" value="0.15185185185185185" />
         <entry key="app/src/main/res/drawable/ic_heart.xml" value="0.15185185185185185" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.15462962962962962" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.10740740740740741" />
+        <entry key="app/src/main/res/layout/bottom_sheet_checkout_options.xml" value="0.18020833333333333" />
+        <entry key="app/src/main/res/layout/fragment_all_categories.xml" value="0.10740740740740741" />
+        <entry key="app/src/main/res/layout/fragment_card_viewer.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/fragment_item_card_viewer.xml" value="0.10740740740740741" />
+        <entry key="app/src/main/res/layout/nav_backdrop.xml" value="0.33" />
       </map>
     </option>
   </component>

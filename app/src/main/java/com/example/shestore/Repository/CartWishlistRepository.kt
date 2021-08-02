@@ -9,6 +9,7 @@ import com.example.shestore.Database.Database
 import com.example.shestore.Database.Entity.CartEntity
 import com.example.shestore.Database.Entity.WishlistEntity
 import com.example.shestore.Interface.FeedbackListener
+import com.example.shestore.Interface.FeedbackType
 import com.example.shestore.Utility.Coroutines
 
 class CartWishlistRepository(context: Context, val feedbackListener: FeedbackListener) {
@@ -37,26 +38,38 @@ class CartWishlistRepository(context: Context, val feedbackListener: FeedbackLis
         Coroutines.launchDefault {
             if (wishlistDAO!!.checkProductExits(data.product_id) == 0) {
                 wishlistDAO!!.addToWishlist(data)
-                feedbackListener.message("${data.product_name} added to wishlist")
+                feedbackListener.message(FeedbackType.WISHLIST,"${data.product_name} added to wishlist")
             } else {
                 // If Product Exists then delete it from table
                 Log.d("SQLITE", "DATA ALREADY EXISTS")
                 wishlistDAO!!.deleteItemFromWishlist(data.product_id)
-                feedbackListener.message("${data.product_name} removed from wishlist")
+                feedbackListener.message(FeedbackType.WISHLIST,"${data.product_name} removed from wishlist")
             }
         }
     }
 
     /** Checks the Product exist in wishlist.
-     * @return true : If product exist in table
-     * @return false: If Product does'nt exist in table
+     * @return LiveData<Int>
      * */
     fun isProductInWishlist(p_id: Int) : LiveData<Int> = wishlistDAO!!.checkProductExitsLD(p_id)
+
+    /**
+     * Checks the product exist in cart.
+     * @return LiveData<Int>
+     * */
+    fun isProductInCart(p_id: Int) : LiveData<Int> = cartDAO!!.checkProductExitsLD(p_id)
 
     /** Add Data to cart table*/
     fun addToCart(data: CartEntity) {
         Coroutines.launchDefault {
-            cartDAO!!.addToCart(data)
+            if (cartDAO!!.checkProductExits(data.product_id) == 0) {
+                cartDAO!!.addToCart(data)
+                feedbackListener.message(FeedbackType.CART,"true")
+            } else {
+                // If Product Exists then delete it from table
+                cartDAO!!.deleteItemFromCart(data.product_id)
+                feedbackListener.message(FeedbackType.CART,"false")
+            }
         }
     }
 }
