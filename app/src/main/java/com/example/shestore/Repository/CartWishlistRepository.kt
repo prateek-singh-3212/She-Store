@@ -1,34 +1,62 @@
 package com.example.shestore.Repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
-import com.example.shestore.Database.DAO.CartWishlistDAO
+import com.example.shestore.Database.DAO.CartDAO
+import com.example.shestore.Database.DAO.WishlistDAO
 import com.example.shestore.Database.Database
-import com.example.shestore.Database.Entity.CartWishlistEntity
+import com.example.shestore.Database.Entity.CartEntity
+import com.example.shestore.Database.Entity.WishlistEntity
+import com.example.shestore.Interface.FeedbackListener
 import com.example.shestore.Utility.Coroutines
 
-class CartWishlistRepository(context: Context) {
+class CartWishlistRepository(context: Context, val feedbackListener: FeedbackListener) {
 
-    private var cartWishlistDAO: CartWishlistDAO? = null
-    private var cartProducts: LiveData<CartWishlistEntity>? = null
-    private var wishlistProducts: LiveData<CartWishlistEntity>? = null
+    private var wishlistDAO: WishlistDAO? = null
+    private var cartDAO: CartDAO? = null
+    private var cartProducts: LiveData<CartEntity>? = null
+    private var wishlistProducts: LiveData<WishlistEntity>? = null
 
     init {
         val database: Database = Database.getInstance(context)
-        this.cartWishlistDAO = database.cartWishListDAO()
+        this.wishlistDAO = database.WishListDAO()
+        this.cartDAO = database.CartDAO()
 
         // Used this !! because already intitated this above
-        cartProducts = cartWishlistDAO!!.getCartProducts()
-        wishlistProducts = cartWishlistDAO!!.getCartProducts()
+        cartProducts = cartDAO!!.getCartProducts()
+        wishlistProducts = wishlistDAO!!.getWishListProducts()
     }
 
-    fun getCartProducts() : LiveData<CartWishlistEntity> = cartProducts!!
+    fun getCartProducts() : LiveData<CartEntity> = cartProducts!!
 
-    fun getWishlistProducts() : LiveData<CartWishlistEntity> = wishlistProducts!!
+    fun getWishlistProducts() : LiveData<WishlistEntity> = wishlistProducts!!
 
-    fun insetDataInDatabase(data: CartWishlistEntity) {
+    /** Add Data to wishlist table*/
+    fun addToWishlist(data: WishlistEntity) {
         Coroutines.launchDefault {
-            cartWishlistDAO!!.insertProduct(data)
+            if (wishlistDAO!!.checkProductExits(data.product_id) == 0) {
+                wishlistDAO!!.addToWishlist(data)
+                feedbackListener.message("${data.product_name} added to wishlist")
+            } else {
+                // If Product Exists then delete it from table
+                Log.d("SQLITE", "DATA ALREADY EXISTS")
+                wishlistDAO!!.deleteItemFromWishlist(data.product_id)
+                feedbackListener.message("${data.product_name} removed from wishlist")
+            }
+        }
+    }
+
+    /** Checks the Product exist in wishlist.
+     * @return true : If product exist in table
+     * @return false: If Product does'nt exist in table
+     * */
+    fun isProductInWishlist(p_id: Int) : LiveData<Int> = wishlistDAO!!.checkProductExitsLD(p_id)
+
+    /** Add Data to cart table*/
+    fun addToCart(data: CartEntity) {
+        Coroutines.launchDefault {
+            cartDAO!!.addToCart(data)
         }
     }
 }

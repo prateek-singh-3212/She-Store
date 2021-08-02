@@ -10,14 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shestore.Adapter.ImageSliderAdapter
-import com.example.shestore.Database.Entity.CartWishlistEntity
+import com.example.shestore.Database.Entity.WishlistEntity
 import com.example.shestore.Interface.ItemData
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.R
@@ -28,11 +27,11 @@ import com.example.shestore.ViewModel.ItemDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -100,7 +99,10 @@ class ItemDetail : Fragment() {
 
         itemDetailVM = ViewModelProvider(requireActivity()).get(ItemDetailViewModel::class.java)
 
-        Log.d("FragmentTransition", "Fragment: $parentFragmentManager ItemDataViewModel: $itemDetailVM")
+        Log.d(
+            "FragmentTransition",
+            "Fragment: $parentFragmentManager ItemDataViewModel: $itemDetailVM"
+        )
 
         itemDetailVM.getItemDetail().observe(requireActivity()) {
             setDataInFragment(it)
@@ -191,10 +193,6 @@ class ItemDetail : Fragment() {
         ratingBar = view.findViewById(R.id.itemDetail_ratingBar)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.actionbar_itemdetail, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 
     override fun onStart() {
         super.onStart()
@@ -202,7 +200,6 @@ class ItemDetail : Fragment() {
         buyNow.setOnClickListener {
             setUpBottomSheet()
         }
-
     }
 
     private fun setUpBottomSheet() {
@@ -261,7 +258,8 @@ class ItemDetail : Fragment() {
     private fun setDataInBottomSheet(data: WooCommerceItemsDetail) {
 
         Picasso.get().load(data.images[0].src).placeholder(R.drawable.close_icon)
-            .error(R.drawable.ic_launcher_background).transform(RoundImageviewCorner(20, 0)).into(bsItemImage)
+            .error(R.drawable.ic_launcher_background).transform(RoundImageviewCorner(20, 0))
+            .into(bsItemImage)
 
         bsItemName.text = data.name
         bsPrice.text = HtmlParser.htmlToSpannedString(data.price_html)
@@ -310,6 +308,25 @@ class ItemDetail : Fragment() {
         actionBar?.setDisplayShowTitleEnabled(false)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.actionbar_itemdetail, menu)
+
+        /** Listen and updates the icon of wishlist*/
+        itemDetailVM.getItemDetail().observe(this) { data ->
+            itemDetailVM.checkWishlistStatus(requireContext(), data.id).observe(this) {
+                if (it == 0) {
+                    menu.getItem(0).icon =
+                        ResourcesCompat.getDrawable(resources, R.drawable.favorite_border, null)
+                } else {
+                    menu.getItem(0).icon =
+                        ResourcesCompat.getDrawable(resources, R.drawable.ic_heart, null)
+                }
+            }
+        }
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -318,19 +335,25 @@ class ItemDetail : Fragment() {
                 return true
             }
             R.id.action_bar_itemdetail_like -> {
-                // TODO: Add the item to like cart
                 itemDetailVM.getItemDetail().observe(this) {
-                    val data = CartWishlistEntity(
+                    val data = WishlistEntity(
                         it.id,
                         it.name,
                         System.currentTimeMillis(),
                         it.status,
-                        0,
-                        1,
-                        "XL",
-                        "https://google.com"
-                        )
+                        it.permalink
+                    )
+
                     itemDetailVM.addToWishlist(this.requireContext(), data)
+
+                }
+
+                itemDetailVM.getFeedback().observe(this) {
+                    // Showing SnackBar
+                    Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)
+                        .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+                        .setAnchorView(buyNow)
+                        .show()
                 }
             }
         }
