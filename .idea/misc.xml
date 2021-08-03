@@ -4,7 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/cardview_cart_item.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_all_categories.xml" value="0.18020833333333333" />
+        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.19117647058823528" />
+        <entry key="app/src/main/res/layout/fragment_item_card_viewer.xml" value="0.18020833333333333" />
+        <entry key="app/src/main/res/layout/fragment_wishlist.xml" value="0.18020833333333333" />
+        <entry key="app/src/main/res/layout/nav_backdrop.xml" value="0.1" />
       </map>
     </option>
   </component>
