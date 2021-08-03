@@ -11,19 +11,23 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import com.example.shestore.Adapter.CartAdapter
 import com.example.shestore.Checkout
+import com.example.shestore.Model.QuantitySizeModel
 import com.example.shestore.Model.setData
 import com.example.shestore.R
+import com.example.shestore.ViewModel.CartViewModel
 
 class Cart : Fragment() {
 
     private lateinit  var cartrv : RecyclerView
     private lateinit var cartToolbar : Toolbar
     private lateinit var cartCheckout: Button
+    private lateinit var cartVM: CartViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +42,33 @@ class Cart : Fragment() {
     ): View {
         val view : View = inflater.inflate(R.layout.fragment_cart, container, false)
 
+        cartVM = ViewModelProvider(requireActivity()).get(CartViewModel::class.java)
+
         setViews(view)
         setActionbar()
+
+        return view
+    }
+
+    override fun onStart() {
+        super.onStart()
         // Set's Recyclerview
-        cartrv.adapter = CartAdapter(setData())
-        cartrv.layoutManager = LinearLayoutManager(context)
+        cartVM.loadCartItems().observe(this) {
+            // TODO Find Better Implementation in future
+            cartVM.getSizeAndQuantity().observe(this){ SQData ->
+                val dataMap = HashMap<Int, QuantitySizeModel>()
+                for (item in SQData) {
+                    dataMap.put(item.product_id, QuantitySizeModel(item.size, item.quantity))
+                }
+                cartrv.adapter = CartAdapter(it, dataMap)
+                cartrv.layoutManager = LinearLayoutManager(context)
+            }
+        }
 
         cartCheckout.setOnClickListener {
             val intent : Intent = Intent(requireContext(), Checkout::class.java)
             startActivity(intent)
         }
-
-        return view
     }
 
     private fun setViews(view: View) {

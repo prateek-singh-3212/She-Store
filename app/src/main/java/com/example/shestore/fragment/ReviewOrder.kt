@@ -34,8 +34,8 @@ class ReviewOrder : Fragment() {
         setViews(view)
 
         // TODO: set the data of final products user is ordering in adapter
-        finalItemRV.adapter = CartAdapter(setData())
-        finalItemRV.layoutManager = LinearLayoutManager(requireContext())
+//        finalItemRV.adapter = CartAdapter(setData())
+//        finalItemRV.layoutManager = LinearLayoutManager(requireContext())
 
         return view
     }
