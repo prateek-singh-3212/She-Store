@@ -29,30 +29,42 @@ class ItemDetailViewModel() : ViewModel(), FeedbackListener {
 
     fun setTransitionName(transitionName: String) = this.transitionName.postValue(transitionName)
 
+    /**
+     * Passing itemDetailListener = null because we don't want to fetch data
+     * */
     fun addToWishlist(context: Context, data: WishlistEntity) {
         if (cartWishlistRepo == null) {
-            cartWishlistRepo = CartWishlistRepository(context, this)
+            cartWishlistRepo = CartWishlistRepository(context, this,null)
         }
         cartWishlistRepo!!.addToWishlist(data)
     }
 
+    /**
+     * Passing itemDetailListener = null because we don't want to fetch data
+     * */
     fun checkWishlistStatus(context: Context, p_id: Int): LiveData<Int> {
         if (cartWishlistRepo == null) {
-            cartWishlistRepo = CartWishlistRepository(context, this)
+            cartWishlistRepo = CartWishlistRepository(context, this,null)
         }
         return cartWishlistRepo!!.isProductInWishlist(p_id)
     }
 
+    /**
+     * Passing itemDetailListener = null because we don't want to fetch data
+     * */
     fun addToCart(context: Context, data: CartEntity) {
         if (cartWishlistRepo == null) {
-            cartWishlistRepo = CartWishlistRepository(context, this)
+            cartWishlistRepo = CartWishlistRepository(context, this,null)
         }
         cartWishlistRepo!!.addToCart(data)
     }
 
+    /**
+     * Passing itemDetailListener = null because we don't want to fetch data
+     * */
     fun checkCartStatus(context: Context, p_id: Int): LiveData<Int> {
         if (cartWishlistRepo == null) {
-            cartWishlistRepo = CartWishlistRepository(context, this)
+            cartWishlistRepo = CartWishlistRepository(context, this, null)
         }
         return cartWishlistRepo!!.isProductInCart(p_id)
     }

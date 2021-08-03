@@ -1,5 +1,6 @@
 package com.example.shestore.WooCommerce
 
+import android.util.Log
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.Network.WooCommerceAPI
 import com.example.shestore.Network.WooCommerceAPIClient
@@ -21,5 +22,13 @@ class ItemDetailAPI {
 
     suspend fun getProductDetail(endpointOfData : String) : Response<List<WooCommerceItemsDetail>> {
         return wooCommerceAPI.getEndpointProductsDetail(endpointOfData)
+    }
+
+    suspend fun getProductDetailFromIds(ids: List<Int>) : Response<List<WooCommerceItemsDetail>> {
+        var endpoint = "products?include="
+        for (id in ids) {
+            endpoint = "$endpoint $id,"
+        }
+        return wooCommerceAPI.getProductFromId(endpoint)
     }
 }

@@ -10,14 +10,21 @@ import com.example.shestore.Database.Entity.CartEntity
 import com.example.shestore.Database.Entity.WishlistEntity
 import com.example.shestore.Interface.FeedbackListener
 import com.example.shestore.Interface.FeedbackType
+import com.example.shestore.Interface.ItemDetailStatus
+import com.example.shestore.Model.WooCommerceItemsDetail
+import com.example.shestore.Network.WooCommerceAPIClient
 import com.example.shestore.Utility.Coroutines
+import com.example.shestore.WooCommerce.ItemDetailAPI
+import kotlinx.coroutines.cancel
+import retrofit2.Response
 
-class CartWishlistRepository(context: Context, val feedbackListener: FeedbackListener) {
+class CartWishlistRepository(context: Context, val feedbackListener: FeedbackListener,val itemDetailStatusListener: ItemDetailStatus?) {
 
     private var wishlistDAO: WishlistDAO? = null
     private var cartDAO: CartDAO? = null
-    private var cartProducts: LiveData<CartEntity>? = null
+    private var cartProducts: LiveData<List<CartEntity>>? = null
     private var wishlistProducts: LiveData<WishlistEntity>? = null
+    private var itemDetailAPI: ItemDetailAPI = ItemDetailAPI()
 
     init {
         val database: Database = Database.getInstance(context)
@@ -29,7 +36,7 @@ class CartWishlistRepository(context: Context, val feedbackListener: FeedbackLis
         wishlistProducts = wishlistDAO!!.getWishListProducts()
     }
 
-    fun getCartProducts() : LiveData<CartEntity> = cartProducts!!
+    fun getCartProducts() : LiveData<List<CartEntity>> = cartProducts!!
 
     fun getWishlistProducts() : LiveData<WishlistEntity> = wishlistProducts!!
 
@@ -69,6 +76,36 @@ class CartWishlistRepository(context: Context, val feedbackListener: FeedbackLis
                 // If Product Exists then delete it from table
                 cartDAO!!.deleteItemFromCart(data.product_id)
                 feedbackListener.message(FeedbackType.CART,"false")
+            }
+        }
+    }
+
+    /** This function returns all the product ids available in cart
+     * TODO: Find why fetching live data does'nt require to run in coroutines*/
+    fun getCartProductIDs() : List<Int> = cartDAO!!.getCartProductIDs()
+
+
+    /** This function fetch id from database and returns all products detail from server*/
+    fun fetchCartProductsFromServer() {
+        Coroutines.launchIO {
+
+            if (itemDetailStatusListener == null) {
+                this.cancel("itemDetailStatusListener Not Found!!!")
+                return@launchIO
+            }
+
+            itemDetailStatusListener.dataLoadingStatus(true)
+
+            val ids = cartDAO!!.getCartProductIDs()
+
+            val response: Response<List<WooCommerceItemsDetail>> = itemDetailAPI.getProductDetailFromIds(ids)
+
+            if (response.isSuccessful) {
+                itemDetailStatusListener.onLoadComplete(response.body()!!)
+                itemDetailStatusListener.dataLoadingStatus(false)
+            } else {
+                itemDetailStatusListener.onErrorOccurred("Unable to Fetch Data Error Code: ${response.code()}")
+                itemDetailStatusListener.dataLoadingStatus(false)
             }
         }
     }

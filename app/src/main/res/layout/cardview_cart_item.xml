@@ -56,30 +56,61 @@
 
         <TextView
             android:id="@+id/cart_card_itemSubName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
             android:fontFamily="@font/mplusregular"
-            android:text="Item Sub Name"
             android:maxLines="2"
+            android:text="Item Sub Name"
             android:textColor="@color/font_main"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/cart_card_itemName"
             app:layout_constraintTop_toBottomOf="@+id/cart_card_itemName" />
+
+        <TextView
+            android:id="@+id/cart_card_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/mplusregular"
+            android:maxLines="2"
+            android:text="Quantity:"
+            android:textColor="@color/font_main"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/cart_card_itemPrice"
+            app:layout_constraintStart_toEndOf="@+id/cart_card_itemView"
+            app:layout_constraintTop_toBottomOf="@+id/cart_card_itemSubName" />
+
+        <TextView
+            android:id="@+id/cart_card_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/mplusregular"
+            android:maxLines="2"
+            android:text="Size:"
+            android:textColor="@color/font_main"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/cart_card_itemPrice"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cart_card_itemSubName" />
 
         <TextView
             android:id="@+id/cart_card_itemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:fontFamily="@font/mplusregular"
-            android:maxLines="2"
+            android:fontFamily="@font/mplusbold"
             android:text="Item Price"
             android:textColor="@color/font_main"
-            android:textSize="16sp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cart_card_itemView"
-            app:layout_constraintTop_toBottomOf="@+id/cart_card_itemSubName" />
+            app:layout_constraintTop_toBottomOf="@+id/cart_card_itemSubName"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
