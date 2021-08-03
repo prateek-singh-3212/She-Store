@@ -135,5 +135,13 @@ class MainFragment : Fragment(), ItemData {
                 addToBackStack(null)
             }
         }
+
+        view.findViewById<View>(R.id.nav_backdrop_mywishlist).setOnClickListener {
+            (context as FragmentActivity).supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(R.id.main_framelayout, WishlistFragment())
+                addToBackStack(null)
+            }
+        }
     }
 }

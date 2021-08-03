@@ -12,6 +12,7 @@
         android:fadingMode="fade_in">
         <targets>
             <target android:targetId="@+id/all_categories" />
+            <target android:targetId="@+id/wishlist" />
         </targets>
     </fade>
 
@@ -21,6 +22,7 @@
         android:slideEdge="bottom">
         <targets>
             <target android:targetId="@+id/all_categories" />
+            <target android:targetId="@+id/wishlist" />
         </targets>
     </slide>
 
