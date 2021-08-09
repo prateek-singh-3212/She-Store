@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:fontFamily="@font/mplusregular"
-                android:text="Shipping Address"
+                android:text="Billing Address"
                 android:textColor="@color/font_main"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/user_detail_name_til"
+                android:id="@+id/user_detail_first_name_til"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,12 +41,35 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView9">
 
                 <EditText
-                    android:id="@+id/user_detail_name"
+                    android:id="@+id/user_detail_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/mplusregular"
                     android:textColor="@color/font_main"
-                    android:hint="Name"
+                    android:hint="First Name"
+                    android:inputType="textPersonName" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/user_detail_last_name_til"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_detail_first_name_til">
+
+                <EditText
+                    android:id="@+id/user_detail_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/mplusregular"
+                    android:textColor="@color/font_main"
+                    android:hint="Last Name"
                     android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -61,7 +84,7 @@
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_detail_name_til">
+                app:layout_constraintTop_toBottomOf="@+id/user_detail_last_name_til">
 
                 <EditText
                     android:id="@+id/user_detail_phone"
@@ -115,13 +138,13 @@
                     android:fontFamily="@font/mplusregular"
                     android:textColor="@color/font_main"
                     android:layout_height="wrap_content"
-                    android:hint="Pincode"
+                    android:hint="Post Code"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/user_detail_houseno_til"
+                android:id="@+id/user_detail_address1_til"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,13 +161,13 @@
                     android:fontFamily="@font/mplusregular"
                     android:textColor="@color/font_main"
                     android:layout_height="wrap_content"
-                    android:hint="House Number"
+                    android:hint="Address Line 1"
                     android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/user_detail_area_til"
+                android:id="@+id/user_detail_address2_til"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,7 +176,7 @@
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_detail_houseno_til">
+                app:layout_constraintTop_toBottomOf="@+id/user_detail_address1_til">
 
                 <EditText
                     android:id="@+id/user_detail_area"
@@ -161,34 +184,10 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/mplusregular"
                     android:textColor="@color/font_main"
-                    android:hint="Area"
+                    android:hint="Address Line 2"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/user_detail_landmark_til"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_detail_area_til">
-
-                <EditText
-                    android:id="@+id/user_detail_landmark"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/mplusregular"
-                    android:textColor="@color/font_main"
-                    android:hint="Landmark"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/user_detail_city_til"
@@ -200,7 +199,7 @@
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_detail_landmark_til">
+                app:layout_constraintTop_toBottomOf="@+id/user_detail_address2_til">
 
                 <EditText
                     android:id="@+id/user_detail_city"
@@ -236,6 +235,29 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/user_detail_country_til"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_detail_state_til">
+
+                <EditText
+                    android:id="@+id/user_detail_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/mplusregular"
+                    android:textColor="@color/font_main"
+                    android:hint="Country"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/user_detail_continue"
                 android:layout_width="match_parent"
@@ -249,7 +271,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_detail_state_til" />
+                app:layout_constraintTop_toBottomOf="@+id/user_detail_country_til" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
