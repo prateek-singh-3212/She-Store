@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.transition.TransitionInflater
+import com.airbnb.lottie.LottieAnimationView
 import com.example.shestore.Adapter.ItemAdapter
 import com.example.shestore.R
 import com.example.shestore.ViewModel.WishlistViewModel
@@ -24,6 +27,8 @@ class WishlistFragment : Fragment() {
     private lateinit var wishlistToolbar: Toolbar
     private lateinit var wishlistRV: RecyclerView
     private lateinit var wishlistVm: WishlistViewModel
+    private lateinit var lottie_loading: LinearLayout
+    private lateinit var lottie_error: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +70,23 @@ class WishlistFragment : Fragment() {
             wishlistRV.adapter = ItemAdapter(requireActivity(), it)
             wishlistRV.layoutManager = GridLayoutManager(requireContext(), 2)
         }
+
+        wishlistVm.isDataLoading().observe(this) {
+            if (it) {
+                wishlistRV.visibility = View.INVISIBLE
+                lottie_loading.visibility = View.VISIBLE
+            } else {
+                wishlistRV.visibility = View.VISIBLE
+                lottie_loading.visibility = View.INVISIBLE
+            }
+        }
+
+        wishlistVm.getError().observe(this){
+            wishlistRV.visibility = View.INVISIBLE
+            lottie_error.visibility = View.VISIBLE
+            val error: TextView = lottie_error.findViewById(R.id.error_message)
+            error.text = it
+        }
     }
 
     private fun setActionbar() {
@@ -78,6 +100,8 @@ class WishlistFragment : Fragment() {
     private fun setViews(view: View) {
         wishlistToolbar = view.findViewById(R.id.wishlist_toolbar)
         wishlistRV = view.findViewById(R.id.wishlist_rv)
+        lottie_loading = view.findViewById(R.id.wishlist_loading)
+        lottie_error = view.findViewById(R.id.wishlist_error)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

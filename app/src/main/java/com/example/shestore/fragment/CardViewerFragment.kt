@@ -5,10 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.shestore.Adapter.ItemAdapter
 import com.example.shestore.R
 import com.example.shestore.ViewModel.ItemCardViewModel
@@ -18,13 +23,17 @@ import dagger.hilt.android.AndroidEntryPoint
 class CardViewerFragment(private val categoryEndpointURL: String) : Fragment() {
 
     private val itemCardVM: ItemCardViewModel by viewModels()
+    private lateinit var lottie_loading: LinearLayout
+    private lateinit var lottie_error: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view: View = inflater.inflate(R.layout.fragment_card_viewer, container, false)
-        val rv : RecyclerView = view.findViewById(R.id.home_itemlist_rv)
+        val rv: RecyclerView = view.findViewById(R.id.home_itemlist_rv)
+        lottie_loading = view.findViewById(R.id.card_viewer_loading)
+        lottie_error = view.findViewById(R.id.card_viewer_error)
 
         itemCardVM.getItemDetail(categoryEndpointURL).observeForever {
 
@@ -33,14 +42,20 @@ class CardViewerFragment(private val categoryEndpointURL: String) : Fragment() {
         }
 
         itemCardVM.isDataLoading().observeForever {
-            if (it)
-                Log.d("OkHttp", "DATA IS LOADING..............")
-            else
-                Log.d("OkHttp", "DATA LOAD COMPLETE!!!!!!!!")
+            if (it) {
+                rv.visibility = View.INVISIBLE
+                lottie_loading.visibility = View.VISIBLE
+            } else {
+                rv.visibility = View.VISIBLE
+                lottie_loading.visibility = View.INVISIBLE
+            }
         }
 
         itemCardVM.getError().observeForever {
-            Log.d("OkHttp", "STOP!!!!!!!!!!! Error Occurred $it")
+            rv.visibility = View.INVISIBLE
+            lottie_error.visibility = View.VISIBLE
+            val error: TextView = lottie_error.findViewById(R.id.error_message)
+            error.text = it
         }
 
         return view

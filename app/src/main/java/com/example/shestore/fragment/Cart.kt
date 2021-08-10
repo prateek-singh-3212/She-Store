@@ -7,6 +7,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
+import com.airbnb.lottie.LottieAnimationView
 import com.example.shestore.Adapter.CartAdapter
 import com.example.shestore.Checkout
 import com.example.shestore.Model.QuantitySizeModel
@@ -28,6 +31,8 @@ class Cart : Fragment() {
     private lateinit var cartToolbar : Toolbar
     private lateinit var cartCheckout: Button
     private lateinit var cartVM: CartViewModel
+    private lateinit var lottie_loading: LinearLayout
+    private lateinit var lottie_error: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +70,23 @@ class Cart : Fragment() {
             }
         }
 
+        cartVM.isDataLoading().observe(this) {
+            if (it) {
+                cartrv.visibility = View.INVISIBLE
+                lottie_loading.visibility = View.VISIBLE
+            } else {
+                cartrv.visibility = View.VISIBLE
+                lottie_loading.visibility = View.INVISIBLE
+            }
+        }
+
+        cartVM.getError().observe(this){
+            cartrv.visibility = View.INVISIBLE
+            lottie_error.visibility = View.VISIBLE
+            val error: TextView = lottie_error.findViewById(R.id.error_message)
+            error.text = it
+        }
+
         cartCheckout.setOnClickListener {
             val intent : Intent = Intent(requireContext(), Checkout::class.java)
             startActivity(intent)
@@ -75,6 +97,8 @@ class Cart : Fragment() {
         cartrv = view.findViewById(R.id.cart_rv)
         cartToolbar = view.findViewById(R.id.cart_toolbar)
         cartCheckout = view.findViewById(R.id.cart_checkout)
+        lottie_loading = view.findViewById(R.id.cart_loading)
+        lottie_error = view.findViewById(R.id.cart_error)
     }
 
     private fun setActionbar() {

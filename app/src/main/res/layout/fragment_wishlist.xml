@@ -5,6 +5,7 @@
     android:id="@+id/wishlist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/pink_primary"
     tools:context=".fragment.WishlistFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/playball"
-                android:text="My Cart "
+                android:text="My Wishlist "
                 android:textColor="@color/pink_primary"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -38,6 +39,30 @@
             android:layout_height="0dp"
             android:background="@color/pink_primary"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wishlist_toolbar" />
+
+        <include
+            android:id="@+id/wishlist_loading"
+            layout="@layout/loading"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wishlist_toolbar" />
+
+        <include
+            android:id="@+id/wishlist_error"
+            layout="@layout/error"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/wishlist_toolbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
