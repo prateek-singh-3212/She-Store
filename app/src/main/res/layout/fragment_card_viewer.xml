@@ -10,4 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <include
+        android:id="@+id/card_viewer_loading"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:visibility="invisible"
+        layout="@layout/loading"
+        android:layout_gravity="center"/>
+
+    <include
+        android:id="@+id/card_viewer_error"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        layout="@layout/error"
+        android:visibility="invisible"
+        android:layout_gravity="center"/>
 </FrameLayout>
