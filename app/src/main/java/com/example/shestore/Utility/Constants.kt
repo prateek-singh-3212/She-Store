@@ -28,3 +28,8 @@ object SystemConstant {
         return isConnected
     }
 }
+
+object SystemErrors {
+    const val notFound404 : String = "SHE404 : No data found"
+    const val statusOK200 : String = "SHE200 : Status OK"
+}

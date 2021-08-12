@@ -21,6 +21,7 @@ import com.example.shestore.Adapter.CartAdapter
 import com.example.shestore.Checkout
 import com.example.shestore.Model.QuantitySizeModel
 import com.example.shestore.R
+import com.example.shestore.Utility.SystemErrors
 import com.example.shestore.ViewModel.CartViewModel
 
 class Cart : Fragment() {
@@ -31,6 +32,7 @@ class Cart : Fragment() {
     private lateinit var cartVM: CartViewModel
     private lateinit var lottie_loading: LinearLayout
     private lateinit var lottie_error: LinearLayout
+    private lateinit var lottie_not_found: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +81,16 @@ class Cart : Fragment() {
         }
 
         cartVM.getError().observe(this){
+
+            if (it.equals(SystemErrors.notFound404)) {
+                // Not found the item in database
+                lottie_not_found.visibility = View.VISIBLE
+                return@observe
+            } else if (it.equals(SystemErrors.statusOK200) || lottie_not_found.visibility == View.VISIBLE) {
+                lottie_not_found.visibility = View.INVISIBLE
+                return@observe
+            }
+
             cartrv.visibility = View.INVISIBLE
             lottie_error.visibility = View.VISIBLE
             val error: TextView = lottie_error.findViewById(R.id.error_message)
@@ -97,6 +109,7 @@ class Cart : Fragment() {
         cartCheckout = view.findViewById(R.id.cart_checkout)
         lottie_loading = view.findViewById(R.id.cart_loading)
         lottie_error = view.findViewById(R.id.cart_error)
+        lottie_not_found = view.findViewById(R.id.cart_not_found)
     }
 
     private fun setActionbar() {
