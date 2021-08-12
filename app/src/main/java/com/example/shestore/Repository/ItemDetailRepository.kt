@@ -1,5 +1,6 @@
 package com.example.shestore.Repository
 
+import android.util.Log
 import com.example.shestore.Interface.ItemDetailStatus
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.Utility.Coroutines
@@ -17,6 +18,12 @@ class ItemDetailRepository(private val itemDetailStatusListener: ItemDetailStatu
             itemDetailStatusListener.dataLoadingStatus(true)
 
             val detail: Response<List<WooCommerceItemsDetail>> = itemDetail.getProductDetail(endpointOfData)
+
+            if (detail.raw().networkResponse != null){
+                Log.d("OkH", "Respose from Network")
+            } else if (detail.raw().cacheResponse != null && detail.raw().networkResponse == null) {
+                Log.d("OkH", "Respose from Cache")
+            }
 
             if (detail.isSuccessful ) {
                 itemDetailStatusListener.onLoadComplete(detail.body()!!)

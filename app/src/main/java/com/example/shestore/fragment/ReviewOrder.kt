@@ -8,10 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shestore.Adapter.CartAdapter
-import com.example.shestore.Model.setData
 import com.example.shestore.R
 
 class ReviewOrder : Fragment() {

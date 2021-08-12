@@ -1,7 +1,6 @@
 package com.example.shestore.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -12,12 +11,11 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.transition.TransitionInflater
-import com.airbnb.lottie.LottieAnimationView
 import com.example.shestore.Adapter.ItemAdapter
 import com.example.shestore.R
 import com.example.shestore.ViewModel.WishlistViewModel

@@ -12,7 +12,6 @@ import com.example.shestore.Interface.FeedbackListener
 import com.example.shestore.Interface.FeedbackType
 import com.example.shestore.Interface.ItemDetailStatus
 import com.example.shestore.Model.WooCommerceItemsDetail
-import com.example.shestore.Network.WooCommerceAPIClient
 import com.example.shestore.Utility.Coroutines
 import com.example.shestore.WooCommerce.ItemDetailAPI
 import kotlinx.coroutines.cancel

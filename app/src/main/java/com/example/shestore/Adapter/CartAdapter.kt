@@ -1,6 +1,5 @@
 package com.example.shestore.Adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,6 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shestore.Model.QuantitySizeModel
 import com.example.shestore.Model.WooCommerceItemsDetail
-import com.example.shestore.Model.itemList
 import com.example.shestore.R
 import com.example.shestore.Utility.HtmlParser
 import com.squareup.picasso.Picasso

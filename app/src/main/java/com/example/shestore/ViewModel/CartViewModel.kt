@@ -1,17 +1,11 @@
 package com.example.shestore.ViewModel
 
-import android.app.Activity
 import android.app.Application
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.shestore.Database.Entity.CartEntity
-import com.example.shestore.Interface.FeedbackListener
-import com.example.shestore.Interface.FeedbackType
 import com.example.shestore.Interface.ItemDetailStatus
-import com.example.shestore.Model.QuantitySizeModel
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.Repository.CartWishlistRepository
 

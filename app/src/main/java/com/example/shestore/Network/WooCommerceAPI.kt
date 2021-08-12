@@ -3,7 +3,6 @@ package com.example.shestore.Network
 import com.example.shestore.Model.WooCommerceItemsDetail
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface WooCommerceAPI {
