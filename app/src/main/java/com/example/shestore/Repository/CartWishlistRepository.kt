@@ -13,6 +13,7 @@ import com.example.shestore.Interface.FeedbackType
 import com.example.shestore.Interface.ItemDetailStatus
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.Utility.Coroutines
+import com.example.shestore.Utility.SystemErrors
 import com.example.shestore.WooCommerce.ItemDetailAPI
 import kotlinx.coroutines.cancel
 import retrofit2.Response
@@ -151,6 +152,16 @@ class CartWishlistRepository(
 
             val ids = cartDAO!!.getCartProductIDs()
 
+            // Checks that id is empty or not and updates the UI accordingly
+            if (ids.isEmpty()) {
+                // No need to fetch because no id found.
+                itemDetailStatusListener.onErrorOccurred(SystemErrors.notFound404)
+                itemDetailStatusListener.dataLoadingStatus(false)
+                return@launchIO
+            } else {
+                itemDetailStatusListener.onErrorOccurred(SystemErrors.statusOK200)
+            }
+
             val response: Response<List<WooCommerceItemsDetail>> =
                 itemDetailAPI.getProductDetailFromIds(ids)
 
@@ -179,6 +190,16 @@ class CartWishlistRepository(
             itemDetailStatusListener.dataLoadingStatus(true)
 
             val ids = wishlistDAO!!.getWishListProductIDs()
+
+            // Checks that id is empty or not and updates the UI accordingly
+            if (ids.isEmpty()) {
+                // No need to fetch because no id found.
+                itemDetailStatusListener.onErrorOccurred(SystemErrors.notFound404)
+                itemDetailStatusListener.dataLoadingStatus(false)
+                return@launchIO
+            } else {
+                itemDetailStatusListener.onErrorOccurred(SystemErrors.statusOK200)
+            }
 
             val response: Response<List<WooCommerceItemsDetail>> =
                 itemDetailAPI.getProductDetailFromIds(ids)
