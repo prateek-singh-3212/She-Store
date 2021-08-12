@@ -1,6 +1,5 @@
 package com.example.shestore.WooCommerce
 
-import android.util.Log
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.Network.WooCommerceAPI
 import com.example.shestore.Network.WooCommerceAPIClient

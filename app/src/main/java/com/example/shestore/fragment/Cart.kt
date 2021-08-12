@@ -17,11 +17,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
-import com.airbnb.lottie.LottieAnimationView
 import com.example.shestore.Adapter.CartAdapter
 import com.example.shestore.Checkout
 import com.example.shestore.Model.QuantitySizeModel
-import com.example.shestore.Model.setData
 import com.example.shestore.R
 import com.example.shestore.ViewModel.CartViewModel
 
