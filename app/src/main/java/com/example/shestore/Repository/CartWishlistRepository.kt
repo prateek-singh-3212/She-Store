@@ -11,6 +11,7 @@ import com.example.shestore.Database.Entity.WishlistEntity
 import com.example.shestore.Interface.FeedbackListener
 import com.example.shestore.Interface.FeedbackType
 import com.example.shestore.Interface.ItemDetailStatus
+import com.example.shestore.Model.QuantitySizeModel
 import com.example.shestore.Model.WooCommerceItemsDetail
 import com.example.shestore.Utility.Coroutines
 import com.example.shestore.Utility.SystemErrors
@@ -213,4 +214,20 @@ class CartWishlistRepository(
             }
         }
     }
+
+    /**
+     * This function fetch id and qunantity and size of product from cart table and returns all products detail from server
+     *  <span class="strong"> REQUIRED feedback LISTENER !!! </span>
+     * */
+//    fun getCartProductIdAndQuantity() : Map<Int, QuantitySizeModel> {
+//
+//        Coroutines.launchDefault {
+//
+//            if (feedbackListener == null) {
+//                this.cancel("feedback listener is null. REQUIRED!!")
+//                return@launchDefault
+//            }
+//
+//        }
+//    }
 }

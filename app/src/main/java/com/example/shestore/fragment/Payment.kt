@@ -11,6 +11,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.shestore.R
 import com.example.shestore.Utility.DataProvider
+import com.google.android.material.snackbar.Snackbar
 
 class Payment : Fragment(), AdapterView.OnItemSelectedListener {
 
@@ -69,7 +70,7 @@ class Payment : Fragment(), AdapterView.OnItemSelectedListener {
                 // TODO Load Paypal payment layout.
             }
             dataProvider.getStringFromRes(R.string.credit_card) -> {
-                // TODO Load creditcard layout
+                // TODO Load credit card layout
             }
             dataProvider.getStringFromRes(R.string.stripe) -> {
                 // TODO Load stripe layout
@@ -81,6 +82,8 @@ class Payment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Show Warning Message")
+        Snackbar.make(requireView(), "Select Payment Method", Snackbar.LENGTH_SHORT)
+            .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+            .show()
     }
 }
